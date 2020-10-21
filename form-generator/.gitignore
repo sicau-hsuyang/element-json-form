@@ -1,9 +1,7 @@
 .DS_Store
 node_modules
 /dist
-/src/components/parser/lib
-/src/components/render/lib
-/src/components/tinymce/lib
+
 
 # local env files
 .env.local
@@ -13,6 +11,7 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # Editor directories and files
 .idea
@@ -22,5 +21,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
-.prettierrc
