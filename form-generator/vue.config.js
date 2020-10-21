@@ -1,4 +1,12 @@
+/*
+ * @Author: JohnYang
+ * @Date: 2020-10-14 22:25:11
+ * @LastEditors: JohnYang
+ * @LastEditTime: 2020-10-21 14:58:43
+ */
 const path = require('path')
+
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const minify = process.env.NODE_ENV === 'development' ? false : {
   collapseWhitespace: true,
@@ -21,7 +29,7 @@ module.exports = {
     : '/',
   pages: {
     index: {
-      entry: 'src/views/index/main.js',
+      entry: 'src/main.js',
       template: 'public/index.html',
       filename: 'index.html',
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
@@ -44,7 +52,10 @@ module.exports = {
       vue: 'Vue',
       'vue-router': 'VueRouter',
       'element-ui': 'ELEMENT'
-    }
+    },
+    plugins: [
+      new MonacoWebpackPlugin(),
+    ]
   },
   chainWebpack(config) {
     // set svg-sprite-loader

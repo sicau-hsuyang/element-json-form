@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 15:03:20
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 15:28:29
+ * @LastEditTime: 2020-10-20 21:26:02
 -->
 
 <template>
@@ -164,33 +164,3 @@ export default class CheckboxMeta extends BaseControl {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.select-item {
-  display: flex;
-  border: 1px dashed #fff;
-  box-sizing: border-box;
-  & .close-btn {
-    cursor: pointer;
-    color: #f56c6c;
-  }
-  & .el-input + .el-input {
-    margin-left: 4px;
-  }
-}
-.select-item + .select-item {
-  margin-top: 4px;
-}
-.select-item.sortable-chosen {
-  border: 1px dashed #409eff;
-}
-.select-line-icon {
-  line-height: 32px;
-  font-size: 22px;
-  padding: 0 4px;
-  color: #777;
-}
-.option-drag {
-  cursor: move;
-}
-</style>

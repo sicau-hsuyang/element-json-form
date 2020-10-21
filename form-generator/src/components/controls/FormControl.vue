@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-08-16 20:23:25
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-18 13:30:22
+ * @LastEditTime: 2020-10-21 14:12:05
 -->
 <script>
 export default {
@@ -14,22 +14,6 @@ export default {
     },
     value: {
       required: true
-    }
-  },
-  data() {
-    return {
-      content: ""
-    };
-  },
-  created() {
-    this.content = this.value;
-  },
-  watch: {
-    value: function() {
-      this.content = this.value;
-    },
-    content: function() {
-      this.$emit("input", this.content);
     }
   },
   methods: {
@@ -74,19 +58,22 @@ export default {
           {...{
             props: {
               ...this.$attrs,
-              ...this.$props
+              ...this.$props,
+              value: this.value
             },
             attrs: {
               ...this.$attrs,
               ...this.$props
             },
             on: {
-              ...this.$listeners
+              ...this.$listeners,
+              input: val => {
+                this.$emit("input", val);
+              }
             }
           }}
           multiple={multiple}
-          v-model={this.content}
-          style={{ width: "100%", ...style }}
+          style={style}
         >
           {this.createOptions(h, { options, groups })}
         </el-select>
@@ -108,17 +95,20 @@ export default {
           {...{
             props: {
               ...this.$attrs,
-              ...this.$props
+              ...this.$props,
+              value: this.value
             },
             attrs: {
               ...this.$attrs,
               ...this.$props
             },
             on: {
-              ...this.$listeners
+              ...this.$listeners,
+              input: val => {
+                this.$emit("input", val);
+              }
             }
           }}
-          v-model={this.content}
           type={controlType}
           style={style}
         />
@@ -129,17 +119,20 @@ export default {
           {...{
             props: {
               ...this.$attrs,
-              ...this.$props
+              ...this.$props,
+              value: this.value
             },
             attrs: {
               ...this.$attrs,
               ...this.$props
             },
             on: {
-              ...this.$listeners
+              ...this.$listeners,
+              input: val => {
+                this.$emit("input", val);
+              }
             }
           }}
-          v-model={this.content}
           type={controlType}
           style={style}
         />
@@ -151,19 +144,20 @@ export default {
             props: {
               ...this.$attrs,
               ...this.$props,
-              "show-word-limit": true
+              value: this.value
             },
             attrs: {
               ...this.$attrs,
-              ...this.$props,
-              "show-word-limit": true
+              ...this.$props
             },
             on: {
-              ...this.$listeners
+              ...this.$listeners,
+              input: val => {
+                this.$emit("input", val);
+              }
             }
           }}
           type={controlType}
-          v-model={this.content}
           style={style}
         />
       );
@@ -171,5 +165,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

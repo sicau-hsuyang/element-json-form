@@ -6,7 +6,7 @@
           <img :src="logo" alt="logo" /> Element Form Generator
           <a
             class="github"
-            href="https://github.com/JakHuang/form-generator"
+            href="https://github.com/Sicau-HsuYang/element-json-form"
             target="_blank"
           >
             <img src="https://github.githubassets.com/pinned-octocat.svg" alt />
@@ -115,13 +115,13 @@
       @tag-change="tagChange"
       @fetch-data="fetchData"
     />
-
-    <form-drawer
+    <!-- 运行 -->
+    <!-- <form-drawer
       :visible.sync="drawerVisible"
       :form-data="formData"
       size="100%"
       :generate-conf="generateConf"
-    />
+    /> -->
     <json-drawer
       size="60%"
       :visible.sync="jsonDrawerVisible"
@@ -143,8 +143,7 @@ import draggable from "vuedraggable";
 import { debounce } from "throttle-debounce";
 import { saveAs } from "file-saver";
 import ClipboardJS from "clipboard";
-import render from "@/components/render/render";
-import FormDrawer from "./FormDrawer";
+import render from "@/components/render";
 import JsonDrawer from "./JsonDrawer";
 import RightPanel from "./RightPanel";
 import {
@@ -193,7 +192,6 @@ export default {
   components: {
     draggable,
     render,
-    FormDrawer,
     JsonDrawer,
     RightPanel,
     CodeTypeDialog,
@@ -238,6 +236,10 @@ export default {
         {
           title: "布局型组件",
           list: Object.values(layoutComponents)
+        },
+        {
+          title: "其它组件",
+          list: []
         }
       ]
     };
@@ -247,6 +249,7 @@ export default {
     activeData: {
       handler: function(val, oldVal) {
         if (
+          !this.activeData ||
           this.activeData.placeholder === undefined ||
           !this.activeData.tag ||
           oldActiveId !== this.activeId
@@ -399,9 +402,18 @@ export default {
       }
       return item;
     },
+    reshapeFormData(dataList) {
+      //移除用户不关心的配置
+      return dataList.map(x => {
+        const { document, tagIcon, ...rest } = x;
+        return {
+          ...rest
+        };
+      });
+    },
     AssembleFormData() {
       this.formData = {
-        fields: deepClone(this.drawingList),
+        fields: this.reshapeFormData(deepClone(this.drawingList)),
         ...this.formConf
       };
     },

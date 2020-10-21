@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-18 13:33:13
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 14:06:10
+ * @LastEditTime: 2020-10-20 22:56:32
 -->
 <script>
 import {
@@ -10,11 +10,13 @@ import {
   validRuleOptions,
   triggerOptions,
   defaultRule,
-  asyncValidatorProvideTypes
+  asyncValidatorProvideTypes,
+  validatorFragment
 } from "@/config";
 import FormControl from "@/components/controls/FormControl.vue";
 export default {
   name: "RulesControl",
+  inject: ["panel"],
   components: {
     FormControl
   },
@@ -24,7 +26,24 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      currentItem: null
+    };
+  },
   methods: {
+    subscribeEvent() {
+      this.$on("monaco-change", content => {
+        if (this.currentItem) {
+          this.currentItem.validator = content;
+        }
+      });
+    },
+    handleValieRuleChange(item) {
+      if (item.method) {
+        item.validator = "";
+      }
+    },
     removeCurrentRule(index) {
       this.activeData.rules.splice(index, 1);
     },
@@ -32,10 +51,18 @@ export default {
       var newRule = defaultRule();
       this.activeData.rules.push(newRule);
     },
+    handleFocus(item) {
+      this.currentItem = item;
+      if (this.panel) {
+        this.panel.openMonacoDialog(validatorFragment);
+        this.panel.setAsCurrentUser(this);
+      }
+      this.subscribeEvent();
+    },
     getItems(h) {
       return this.activeData.rules.map((item, index) => {
         return (
-          <div>
+          <div class="rule-item">
             <span
               class="close-btn"
               on-click={() => {
@@ -70,7 +97,7 @@ export default {
               ></form-control>
             </el-form-item>
 
-            {item.method && (
+            {!!item.method && (
               <el-form-item label="类型">
                 <form-control
                   v-model={item.type}
@@ -81,23 +108,27 @@ export default {
               </el-form-item>
             )}
 
-            {item.method && (
+            {!!item.method && (
               <el-form-item label="表达式">
                 <el-input v-model={item.pattern} placeholder="请输入正则" />
               </el-form-item>
             )}
 
-            {item.method && (
+            {!!item.method && (
               <el-form-item label="错误提示" style="margin-bottom:0">
                 <el-input v-model={item.message} placeholder="请输入错误提示" />
               </el-form-item>
             )}
 
-            {!item.method && (
+            {!!!item.method && (
               <el-form-item label="验证器">
                 <form-control
                   type="textarea"
+                  placeholder="请填写自定义验证器"
                   v-model={item.validator}
+                  on-focus={() => {
+                    this.handleFocus(item);
+                  }}
                 ></form-control>
               </el-form-item>
             )}

@@ -2,9 +2,23 @@
  * @Author: JohnYang
  * @Date: 2020-10-18 12:45:50
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 15:29:42
+ * @LastEditTime: 2020-10-21 14:14:20
 -->
 <script>
+function compare(a, b) {
+  // 如果是基础类型 直接比较，否则需要递归比较
+  if (typeof a === "object" && typeof b === "object") {
+    if (Array.isArray(a) && Array.isArray(b)) {
+      return a.every((x, idx) => {
+        return compare(x, b[idx]);
+      });
+    } else {
+      return compare(Object.values(a), Object.values(b));
+    }
+  }
+  return a === b;
+}
+
 export default {
   name: "FormCheck",
   props: {
@@ -13,44 +27,36 @@ export default {
       type: Array
     }
   },
-  data() {
-    return {
-      content: []
-    };
-  },
-  created() {
-    this.content = this.value;
-  },
-  watch: {
-    value() {
-      this.content = this.value;
-    },
-    content() {
-      this.$emit("input", this.content);
-    }
-  },
   render(h) {
+    var { style, ...rest } = this.$attrs;
     return (
       <el-checkbox-group
         {...{
           props: {
-            ...this.$attrs
+            ...rest,
+            value: this.value
           },
           attrs: {
-            ...this.$attrs
+            ...rest
           },
           on: {
-            ...this.$listeners
+            ...this.$listeners,
+            input: val => {
+              this.$emit("input", val);
+            }
+          },
+          style: {
+            ...style
           }
         }}
         v-model={this.content}
       >
-        {this.options(h, this.$attrs)}
+        {this.getOptions(h, this.$attrs)}
       </el-checkbox-group>
     );
   },
   methods: {
-    options(h, conf) {
+    getOptions(h, conf) {
       const list = [];
       conf.options.forEach(item => {
         if (conf.optionType === "button") {

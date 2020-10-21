@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 12:55:02
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 14:41:35
+ * @LastEditTime: 2020-10-21 14:26:38
 -->
 <template>
   <el-form size="small" label-width="90px">
@@ -73,17 +73,27 @@
         @input="onDefaultValueInput"
       />
     </el-form-item>
-    <el-form-item v-if="activeData.slots" label="插槽:prepend">
+    <el-form-item
+      v-if="activeData.slots"
+      label="插槽:prepend"
+      label-width="100px"
+    >
       <el-input
         v-model="activeData.slots.prepend"
         placeholder="请输入前缀"
+        @focus="handleFocus('prepend')"
         type="textarea"
       />
     </el-form-item>
-    <el-form-item v-if="activeData.slots" label="插槽:append">
+    <el-form-item
+      v-if="activeData.slots"
+      label="插槽:append"
+      label-width="100px"
+    >
       <el-input
         v-model="activeData.slots.append"
         placeholder="请输入后缀"
+        @focus="handleFocus('append')"
         type="textarea"
       />
     </el-form-item>
@@ -92,11 +102,7 @@
         <el-button
           slot="append"
           icon="el-icon-thumb"
-          @click="
-            () => {
-              panel.openIconsDialog('prefixIcon');
-            }
-          "
+          @click="open('prefixIcon')"
         >
           选择
         </el-button>
@@ -107,11 +113,7 @@
         <el-button
           slot="append"
           icon="el-icon-thumb"
-          @click="
-            () => {
-              panel.openIconsDialog('suffixIcon');
-            }
-          "
+          @click="open('suffixIcon')"
         >
           选择
         </el-button>
@@ -133,7 +135,6 @@
     <el-form-item label="能否清空">
       <el-switch v-model="activeData.clearable" />
     </el-form-item>
-
     <el-form-item label="是否只读">
       <el-switch v-model="activeData.readonly" />
     </el-form-item>
@@ -155,12 +156,43 @@
 import BaseControl from "@/components/setting-controls/BaseControl";
 import Component from "vue-class-component";
 import { Inject } from "vue-property-decorator";
+import FormControl from "@/components/controls/FormControl.vue";
+import { slotFragment } from "@/config";
 
 @Component({
-  name: "InputMeta"
+  name: "InputMeta",
+  components: {
+    FormControl
+  }
 })
 export default class InputMeta extends BaseControl {
   @Inject("panel")
   panel;
+
+  currentSetProp = null;
+
+  open(icon) {
+    this.panel.openIconsDialog(icon);
+  }
+
+  created() {
+    this.subscribeEvent();
+  }
+
+  subscribeEvent() {
+    this.$on("monaco-change", content => {
+      this.activeData.slots[this.currentSetProp] = content;
+    });
+  }
+
+  handleFocus(setTarget) {
+    this.currentSetProp = setTarget;
+    if (this.panel) {
+      this.panel.openMonacoDialog(
+        this.activeData.slots[this.currentSetProp] || slotFragment
+      );
+      this.panel.setAsCurrentUser(this);
+    }
+  }
 }
 </script>

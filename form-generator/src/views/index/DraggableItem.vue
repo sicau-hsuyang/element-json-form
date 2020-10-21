@@ -1,6 +1,6 @@
 <script>
 import draggable from "vuedraggable";
-import render from "@/components/render/render";
+import render from "@/components/render";
 
 const components = {
   itemBtns(h, currentItem, index, list) {
@@ -54,6 +54,7 @@ const layouts = {
       >
         <el-form-item
           label-width={labelWidth}
+          rules={config.rules}
           label={config.showLabel ? config.label : ""}
           required={config.required}
         >

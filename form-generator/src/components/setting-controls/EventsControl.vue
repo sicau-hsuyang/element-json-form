@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-18 13:33:27
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 14:07:57
+ * @LastEditTime: 2020-10-20 22:56:53
 -->
 <script>
 import FormControl from "@/components/controls/FormControl.vue";
@@ -12,10 +12,12 @@ import {
   triggerOptions,
   getControlEvents,
   asyncValidatorProvideTypes,
-  requiredOptions
+  requiredOptions,
+  formControlEventHandlerFragment
 } from "@/config";
 export default {
   name: "EventsControl",
+  inject: ["panel"],
   components: {
     FormControl
   },
@@ -25,7 +27,32 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      currentItem: null
+    };
+  },
+  computed: {
+    allEvents() {
+      return getControlEvents(this.activeData.tag);
+    }
+  },
   methods: {
+    subscribeEvent() {
+      this.$on("monaco-change", content => {
+        this.currentItem.handler = content;
+      });
+    },
+    handleFocus(item) {
+      this.currentItem = item;
+      if (this.panel) {
+        this.panel.openMonacoDialog(
+          item.handler ? item.handler : formControlEventHandlerFragment
+        );
+        this.panel.setAsCurrentUser(this);
+      }
+      this.subscribeEvent();
+    },
     removeCurrentEvent(index) {
       this.activeData.events.splice(index, 1);
     },
@@ -38,7 +65,7 @@ export default {
     getItems(h) {
       return this.activeData.events.map((eventItem, i) => {
         return (
-          <div key={eventItem.type} class="event-item">
+          <div key={eventItem.type + i} class="event-item">
             <span
               class="close-btn"
               on-click={() => {
@@ -51,12 +78,16 @@ export default {
               <form-control
                 v-model={eventItem.type}
                 type="select"
-                options={getControlEvents(this.activeData.tag)}
+                options={this.allEvents}
               ></form-control>
             </el-form-item>
             <el-form-item label="处理器">
               <form-control
                 v-model={eventItem.handler}
+                on-focus={() => {
+                  this.handleFocus(eventItem);
+                }}
+                placeholder="请输入事件处理器"
                 type="textarea"
               ></form-control>
             </el-form-item>

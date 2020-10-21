@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 14:33:47
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 14:39:37
+ * @LastEditTime: 2020-10-21 15:15:21
 -->
 <script>
 import Vue from "vue";
@@ -62,6 +62,7 @@ export default class BaseControl extends Vue {
   spanChange(val) {
     this.activeData.span = val;
   }
+
   tagChange(tagIcon) {
     var iComponents = Object.values(inputComponents);
     var sComponents = Object.values(selectComponents);
@@ -69,6 +70,7 @@ export default class BaseControl extends Vue {
     if (!target) target = sComponents.find(item => item.tagIcon === tagIcon);
     this.$emit("tag-change", target);
   }
+
   onDefaultValueInput(str) {
     if (Array.isArray(this.activeData.defaultValue)) {
       // 数组

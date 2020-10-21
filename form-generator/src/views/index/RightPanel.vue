@@ -25,6 +25,14 @@
                 activeData.type == 'input'
             "
           ></InputMeta>
+          <AutocompleteMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-autocomplete'
+            "
+          ></AutocompleteMeta>
           <TextareaMeta
             :active-data="activeData"
             v-if="
@@ -83,6 +91,85 @@
                 activeData.tag == 'el-switch'
             "
           ></SwitchMeta>
+
+          <SliderMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-slider'
+            "
+          ></SliderMeta>
+
+          <TimeMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-time-picker'
+            "
+          ></TimeMeta>
+
+          <DateMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-date-picker' &&
+                activeData.type != 'daterange'
+            "
+          ></DateMeta>
+
+          <DaterangeMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-date-picker' &&
+                activeData.type == 'daterange'
+            "
+          ></DaterangeMeta>
+
+          <RateMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' && showField && activeData.tag == 'el-rate'
+            "
+          ></RateMeta>
+          <ColorMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-color-picker'
+            "
+          ></ColorMeta>
+
+          <RowMeta
+            v-if="
+              activeData.layout === 'rowFormItem' &&
+                currentTab === 'field' &&
+                showField
+            "
+            :active-data="activeData"
+          ></RowMeta>
+
+          <TinymceMeta
+            v-if="
+              currentTab === 'field' && showField && activeData.tag == 'tinymce'
+            "
+            :active-data="activeData"
+          ></TinymceMeta>
+
+          <UploadMeta
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'el-upload'
+            "
+            :active-data="activeData"
+          ></UploadMeta>
+
           <el-form
             v-show="currentTab === 'field' && showField"
             size="small"
@@ -144,20 +231,20 @@
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['start-placeholder'] !== undefined"
+              v-if="activeData.startPlaceholder !== undefined"
               label="开始占位"
             >
               <el-input
-                v-model="activeData['start-placeholder']"
+                v-model="activeData.startPlaceholder"
                 placeholder="请输入占位提示"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['end-placeholder'] !== undefined"
+              v-if="activeData.endPlaceholder !== undefined"
               label="结束占位"
             >
               <el-input
-                v-model="activeData['end-placeholder']"
+                v-model="activeData.endPlaceholder"
                 placeholder="请输入占位提示"
               />
             </el-form-item>
@@ -336,13 +423,12 @@
             </el-form-item>
             <el-form-item
               v-if="
-                activeData['icon'] !== undefined &&
-                  activeData.tag === 'el-button'
+                activeData.icon !== undefined && activeData.tag === 'el-button'
               "
               label="按钮图标"
             >
               <el-input
-                v-model="activeData['icon']"
+                v-model="activeData.icon"
                 placeholder="请输入按钮图标名称"
               >
                 <el-button
@@ -439,41 +525,41 @@
               </el-input>
             </el-form-item>
             <el-form-item
-              v-if="activeData['active-text'] !== undefined"
+              v-if="activeData.activeText !== undefined"
               label="开启提示"
             >
               <el-input
-                v-model="activeData['active-text']"
+                v-model="activeData.activeText"
                 placeholder="请输入开启提示"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['inactive-text'] !== undefined"
+              v-if="activeData.inactiveText !== undefined"
               label="关闭提示"
             >
               <el-input
-                v-model="activeData['inactive-text']"
+                v-model="activeData.inactiveText"
                 placeholder="请输入关闭提示"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['active-value'] !== undefined"
+              v-if="activeData.activeValue !== undefined"
               label="开启值"
             >
               <el-input
-                :value="setDefaultValue(activeData['active-value'])"
+                :value="setDefaultValue(activeData.activeValue)"
                 placeholder="请输入开启值"
-                @input="onSwitchValueInput($event, 'active-value')"
+                @input="onSwitchValueInput($event, activeValue)"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['inactive-value'] !== undefined"
+              v-if="activeData.inactiveValue !== undefined"
               label="关闭值"
             >
               <el-input
-                :value="setDefaultValue(activeData['inactive-value'])"
+                :value="setDefaultValue(activeData.inactiveValue)"
                 placeholder="请输入关闭值"
-                @input="onSwitchValueInput($event, 'inactive-value')"
+                @input="onSwitchValueInput($event, inactiveValue)"
               />
             </el-form-item>
             <el-form-item
@@ -555,10 +641,10 @@
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['list-type'] !== undefined"
+              v-if="activeData.listType !== undefined"
               label="列表类型"
             >
-              <el-radio-group v-model="activeData['list-type']" size="small">
+              <el-radio-group v-model="activeData.listType" size="small">
                 <el-radio-button label="text">
                   text
                 </el-radio-button>
@@ -587,7 +673,7 @@
             </el-form-item>
             <el-form-item
               v-if="activeData.buttonText !== undefined"
-              v-show="'picture-card' !== activeData['list-type']"
+              v-show="'picture-card' !== activeData.listType"
               label="按钮文字"
             >
               <el-input
@@ -605,20 +691,20 @@
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['range-separator'] !== undefined"
+              v-if="activeData.rangeSeparator !== undefined"
               label="分隔符"
             >
               <el-input
-                v-model="activeData['range-separator']"
+                v-model="activeData.rangeSeparator"
                 placeholder="请输入分隔符"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['picker-options'] !== undefined"
+              v-if="activeData.pickerOptions !== undefined"
               label="时间段"
             >
               <el-input
-                v-model="activeData['picker-options'].selectableRange"
+                v-model="activeData.pickerOptions.selectableRange"
                 placeholder="请输入时间段"
               />
             </el-form-item>
@@ -792,16 +878,16 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item
-              v-if="activeData['active-color'] !== undefined"
+              v-if="activeData.activeColor !== undefined"
               label="开启颜色"
             >
-              <el-color-picker v-model="activeData['active-color']" />
+              <el-color-picker v-model="activeData.activeColor" />
             </el-form-item>
             <el-form-item
-              v-if="activeData['inactive-color'] !== undefined"
+              v-if="activeData.inactiveColor !== undefined"
               label="关闭颜色"
             >
-              <el-color-picker v-model="activeData['inactive-color']" />
+              <el-color-picker v-model="activeData.inactiveColor" />
             </el-form-item>
 
             <el-form-item
@@ -829,34 +915,34 @@
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['allow-half'] !== undefined"
+              v-if="activeData.allowHalf !== undefined"
               label="允许半选"
             >
-              <el-switch v-model="activeData['allow-half']" />
+              <el-switch v-model="activeData.allowHalf" />
             </el-form-item>
             <el-form-item
-              v-if="activeData['show-text'] !== undefined"
+              v-if="activeData.showText !== undefined"
               label="辅助文字"
             >
               <el-switch
-                v-model="activeData['show-text']"
+                v-model="activeData.showText"
                 @change="rateTextChange"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['show-score'] !== undefined"
+              v-if="activeData.showScore !== undefined"
               label="显示分数"
             >
               <el-switch
-                v-model="activeData['show-score']"
+                v-model="activeData.showScore"
                 @change="rateScoreChange"
               />
             </el-form-item>
             <el-form-item
-              v-if="activeData['show-stops'] !== undefined"
+              v-if="activeData.showStops !== undefined"
               label="显示间断点"
             >
-              <el-switch v-model="activeData['show-stops']" />
+              <el-switch v-model="activeData.showStops" />
             </el-form-item>
             <el-form-item
               v-if="activeData.range !== undefined"
@@ -878,7 +964,7 @@
               label="颜色格式"
             >
               <el-select
-                v-model="activeData['color-format']"
+                v-model="activeData.colorFormat"
                 placeholder="请选择颜色格式"
                 :style="{ width: '100%' }"
                 clearable
@@ -942,7 +1028,7 @@
               v-if="activeData.tag === 'el-cascader'"
               label="展示全路径"
             >
-              <el-switch v-model="activeData['show-all-levels']" />
+              <el-switch v-model="activeData.showAllLevels" />
             </el-form-item>
             <el-form-item
               v-if="activeData.tag === 'el-cascader'"
@@ -969,10 +1055,10 @@
               <el-switch v-model="activeData.multiple" />
             </el-form-item>
             <el-form-item
-              v-if="activeData['auto-upload'] !== undefined"
+              v-if="activeData.autoUpload !== undefined"
               label="自动上传"
             >
-              <el-switch v-model="activeData['auto-upload']" />
+              <el-switch v-model="activeData.autoUpload" />
             </el-form-item>
             <el-form-item
               v-if="activeData.readonly !== undefined"
@@ -1116,6 +1202,7 @@
                 <el-form-item label="处理器">
                   <form-control
                     v-model="eventItem.handler"
+                    placeholder="请输入事件处理器"
                     type="textarea"
                   ></form-control>
                 </el-form-item>
@@ -1200,6 +1287,10 @@
       </el-scrollbar>
     </div>
 
+    <monaco-editor-dialog
+      @monaco-change="broadcastEvent"
+      ref="monacoEditor"
+    ></monaco-editor-dialog>
     <treeNode-dialog
       :visible.sync="dialogVisible"
       title="添加选项"
@@ -1215,6 +1306,7 @@
 
 <script>
 import InputMeta from "@/components/setting-controls/InputMeta.vue";
+import AutocompleteMeta from "@/components/setting-controls/AutoCompleteMeta.vue";
 import TextareaMeta from "@/components/setting-controls/TextareaMeta.vue";
 import PasswordMeta from "@/components/setting-controls/PasswordMeta.vue";
 import CounterMeta from "@/components/setting-controls/CounterMeta.vue";
@@ -1223,7 +1315,18 @@ import FormControl from "@/components/controls/FormControl.vue";
 import RadioMeta from "@/components/setting-controls/RadioMeta.vue";
 import CheckboxMeta from "@/components/setting-controls/CheckboxMeta.vue";
 import SwitchMeta from "@/components/setting-controls/SwitchMeta.vue";
-
+import SliderMeta from "@/components/setting-controls/SliderMeta.vue";
+import TimeMeta from "@/components/setting-controls/TimeMeta.vue";
+import TimerangeMeat from "@/components/setting-controls/TimerangeMeta.vue";
+import RateMeta from "@/components/setting-controls/RateMeta.vue";
+import ColorMeta from "@/components/setting-controls/ColorMeta.vue";
+import DateMeta from "@/components/setting-controls/DateMeta.vue";
+import DaterangeMeta from "@/components/setting-controls/DaterangeMeta.vue";
+import RowMeta from "@/components/setting-controls/RowMeta.vue";
+import TinymceMeta from "@/components/setting-controls/TinymceMeta.vue";
+import UploadMeta from "@/components/setting-controls/UploadMeta.vue";
+const MonacoEditorDialog = () =>
+  import("@/components/controls/MonacoEditorDialog.vue");
 import TreeNodeDialog from "@/views/index/TreeNodeDialog";
 import { isNumberStr } from "@/utils/index";
 import IconsDialog from "./IconsDialog";
@@ -1243,23 +1346,13 @@ import {
   requiredOptions
 } from "@/config";
 
-const dateTimeFormat = {
-  date: "yyyy-MM-dd",
-  week: "yyyy 第 WW 周",
-  month: "yyyy-MM",
-  year: "yyyy",
-  datetime: "yyyy-MM-dd HH:mm:ss",
-  daterange: "yyyy-MM-dd",
-  monthrange: "yyyy-MM",
-  datetimerange: "yyyy-MM-dd HH:mm:ss"
-};
-
 // 使changeRenderKey在目标组件改变时可用
 const needRerenderList = ["tinymce"];
 
 export default {
   components: {
     TreeNodeDialog,
+    MonacoEditorDialog,
     IconsDialog,
     FormControl,
     InputMeta,
@@ -1269,7 +1362,17 @@ export default {
     SelectMeta,
     RadioMeta,
     CheckboxMeta,
-    SwitchMeta
+    SwitchMeta,
+    SliderMeta,
+    TimeMeta,
+    RateMeta,
+    ColorMeta,
+    DateMeta,
+    DaterangeMeta,
+    RowMeta,
+    AutocompleteMeta,
+    TinymceMeta,
+    UploadMeta
   },
   provide() {
     var _this = this;
@@ -1374,10 +1477,14 @@ export default {
           const config = data;
           return data.componentName || `${config.label}: ${data.prop}`;
         }
-      }
+      },
+      currentUser: null
     };
   },
   computed: {
+    monacoEditor() {
+      return this.$refs.monacoEditor;
+    },
     documentLink() {
       return this.activeData
         ? this.activeData.document
@@ -1391,7 +1498,7 @@ export default {
         this.activeData.type !== undefined &&
         this.activeData.tag === "el-date-picker"
       ) {
-        if (this.activeData["start-placeholder"] === undefined) {
+        if (this.activeData.startPlaceholder === undefined) {
           return this.dateTypeOptions;
         }
         return this.dateRangeTypeOptions;
@@ -1434,6 +1541,16 @@ export default {
     }
   },
   methods: {
+    broadcastEvent(content) {
+      if (!this.currentUser) {
+        return;
+      }
+      this.currentUser.$emit("monaco-change", content);
+      this.currentUser = null;
+    },
+    setAsCurrentUser(user) {
+      this.currentUser = user;
+    },
     getControlEvents,
     handleValieRuleChange(item) {
       if (item.method) {
@@ -1568,15 +1685,18 @@ export default {
       );
     },
     rateTextChange(val) {
-      if (val) this.activeData["show-score"] = false;
+      if (val) this.activeData.showScore = false;
     },
     rateScoreChange(val) {
-      if (val) this.activeData["show-text"] = false;
+      if (val) this.activeData.showText = false;
     },
     colorFormatChange(val) {
       this.activeData.defaultValue = null;
-      this.activeData["show-alpha"] = val.indexOf("a") > -1;
+      this.activeData.showAlpha = val.indexOf("a") > -1;
       this.activeData.renderKey = +new Date(); // 更新renderKey,重新渲染该组件
+    },
+    openMonacoDialog(content) {
+      this.monacoEditor && this.monacoEditor.openDialog(content);
     },
     openIconsDialog(model) {
       this.iconsVisible = true;

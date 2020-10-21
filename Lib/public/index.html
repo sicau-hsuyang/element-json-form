@@ -1,0 +1,31 @@
+<!--
+ * @Author: JohnYang
+ * @Date: 2020-10-14 23:02:45
+ * @LastEditors: JohnYang
+ * @LastEditTime: 2020-10-14 23:31:42
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>index</title>
+    <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      {{demo}}
+    </div>
+  </body>
+  <script>
+    Vue.use(ElementJsonForm);
+    var app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          demo: "123"
+        };
+      }
+    });
+  </script>
+</html>

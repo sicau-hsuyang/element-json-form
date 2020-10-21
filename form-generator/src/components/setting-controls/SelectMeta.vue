@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 08:43:28
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 14:49:04
+ * @LastEditTime: 2020-10-21 11:36:30
 -->
 <template>
   <el-form size="small" label-width="90px">
@@ -86,6 +86,7 @@
         <form-control
           v-model="activeData.getOptions"
           type="textarea"
+          @focus="handleFocus"
           placeholder="请输入获取数据的函数"
         ></form-control>
       </el-form-item>
@@ -161,7 +162,9 @@
 <script>
 import FormControl from "@/components/controls/FormControl.vue";
 import Component from "vue-class-component";
+import { Inject } from "vue-property-decorator";
 import BaseControl from "./BaseControl.vue";
+import { fetchRemoteDataSourceFragment } from "@/config";
 @Component({
   name: "SelectMeta",
   components: {
@@ -169,14 +172,54 @@ import BaseControl from "./BaseControl.vue";
   }
 })
 export default class SelectMeta extends BaseControl {
+  @Inject("panel")
+  panel;
+
+  currentItem = null;
+
+  options = [
+    {
+      label: "本地数据源",
+      value: false
+    },
+    {
+      label: "远程数据源",
+      value: true
+    }
+  ];
+
+  created() {
+    this.subscribeEvent();
+  }
+
+  handleFocus() {
+    if (this.panel) {
+      this.panel.openMonacoDialog(
+        this.activeData.getOptions || fetchRemoteDataSourceFragment
+      );
+      this.panel.setAsCurrentUser(this);
+    }
+  }
+
+  subscribeEvent() {
+    this.$on("monaco-change", content => {
+      this.activeData.getOptions = content;
+    });
+  }
+
   addSelectItem() {
     this.activeData.options.push({
       label: "",
       value: ""
     });
   }
+
   handleMethodChange() {
-    this.activeData.options = this.activeData.remote ? "" : [];
+    if (this.activeData.remote) {
+      this.activeData.options = [];
+    } else {
+      this.activeData.getOptions = "";
+    }
   }
 }
 </script>
@@ -205,8 +248,5 @@ export default class SelectMeta extends BaseControl {
   font-size: 22px;
   padding: 0 4px;
   color: #777;
-}
-.option-drag {
-  cursor: move;
 }
 </style>

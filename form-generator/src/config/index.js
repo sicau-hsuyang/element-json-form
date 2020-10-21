@@ -2,11 +2,14 @@
  * @Author: JohnYang
  * @Date: 2020-10-15 08:00:48
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-15 12:42:02
+ * @LastEditTime: 2020-10-20 20:09:23
  */
 
+export * from './fragment';
+
 const controlEventsMap = {
-  "el-input": ["change", "clear", "blur"]
+  "el-input": ["change", "clear", "blur"],
+  "el-autocomplete": ['select', 'change'],
 };
 
 export const validRuleOptions = [
@@ -27,7 +30,7 @@ export const triggerOptions = ["blur", "change"].map(x => {
   };
 });
 
-export const asyncValidatorProvideTypes = ["string", "number", "array"].map(
+export const asyncValidatorProvideTypes = ["string", "number", 'boolean',"array"].map(
   x => {
     return {
       label: x,
@@ -87,3 +90,14 @@ export function getControlEvents(controlType) {
     };
   });
 }
+
+export const dateTimeFormat = {
+  date: "yyyy-MM-dd",
+  week: "yyyy 第 WW 周",
+  month: "yyyy-MM",
+  year: "yyyy",
+  datetime: "yyyy-MM-dd HH:mm:ss",
+  daterange: "yyyy-MM-dd",
+  monthrange: "yyyy-MM",
+  datetimerange: "yyyy-MM-dd HH:mm:ss"
+};

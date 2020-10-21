@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-18 12:39:37
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-18 13:17:12
+ * @LastEditTime: 2020-10-21 14:08:36
 -->
 
 <script>
@@ -16,17 +16,30 @@ export default {
   created() {
     this.content = this.value;
   },
-  watch: {
-    value() {
-      this.content = this.value;
-    },
-    content() {
-      this.$emit("input", this.value);
-    }
-  },
   render(h) {
+    var { style, ...rest } = this.$attrs;
     return (
-      <el-radio-group v-model={this.content}>
+      <el-radio-group
+        {...{
+          props: {
+            ...rest,
+            value: this.value
+          },
+          attrs: {
+            ...rest
+          },
+          on: {
+            ...this.$listeners,
+            input: val => {
+              this.$emit("input", val);
+            }
+          },
+          style: {
+            ...style
+          }
+        }}
+        v-model={this.content}
+      >
         {this.options(h, this.$attrs)}
       </el-radio-group>
     );

@@ -1,3 +1,9 @@
+/*
+ * @Author: JohnYang
+ * @Date: 2020-10-14 22:25:11
+ * @LastEditors: JohnYang
+ * @LastEditTime: 2020-10-21 15:00:36
+ */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/index/Home.vue'
@@ -9,16 +15,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
-  },
-  {
-    path: '/parser',
-    name: 'parser',
-    component: () => import(/* webpackChunkName: "parser-example" */'@/components/parser/example/Index.vue')
-  },
-  {
-    path: '/tinymce',
-    name: 'tinymce',
-    component: () => import(/* webpackChunkName: "tinymce-example" */'@/components/tinymce/example/Index.vue')
   }
 ]
 
