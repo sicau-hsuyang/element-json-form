@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-13 21:05:39
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-15 19:57:04
+ * @LastEditTime: 2020-10-21 20:35:54
 -->
 <script lang="tsx">
 import Vue, { CreateElement } from "vue";
@@ -11,13 +11,14 @@ import { Prop, Provide, Watch } from "vue-property-decorator";
 import {
   IFormItem,
   IFormJson,
-  IFormLayout,
+  IFormConfig,
   IFormModel,
   IValidatorRule,
   ValidatorRules
 } from "../../types";
 import { Col, Row, Form, FormItem } from "element-ui";
 import FormControl from "@/components/FormControl/index.vue";
+import { default as ElementJsonFormItem } from "./form-item.vue";
 
 @Component({
   name: "FormGenerator",
@@ -26,6 +27,7 @@ import FormControl from "@/components/FormControl/index.vue";
     ElRow: Row,
     ElForm: Form,
     ElFormItem: FormItem,
+    ElementJsonFormItem,
     FormControl
   }
 })
@@ -48,7 +50,7 @@ export default class FormGenerator extends Vue {
     type: Object,
     required: false
   })
-  layout!: IFormLayout;
+  config!: IFormConfig;
 
   rules: {
     [prop: string]: IValidatorRule | IValidatorRule[];
@@ -72,23 +74,58 @@ export default class FormGenerator extends Vue {
     this.buildFormItemProp();
   }
 
-  getInitValue(prop: string) {
+  getInitValue(prop: string, item: any) {
     //以value为准
     if (typeof this.model[prop] !== "undefined") {
       return this.model[prop];
-    } else if (typeof this.props[prop].defaultValue !== "undefined") {
+    } else if (
+      this.props[prop] &&
+      typeof this.props[prop].defaultValue !== "undefined"
+    ) {
       return this.props[prop].defaultValue;
+    } else if (item && typeof item.defaultValue !== "undefined") {
+      return item.defaultValue;
     }
-    return this.props[prop].multi ? [] : "";
+    return this.props[prop] && this.props[prop].multiple ? [] : "";
+  }
+
+  _setModel(arr) {
+    if (!Array.isArray(arr)) {
+      return;
+    }
+    arr.forEach((item: any) => {
+      if (Array.isArray(item.children)) {
+        this._setModel(item.children);
+      } else {
+        this.$set(this.model, item.prop, this.getInitValue(item.prop, item));
+      }
+    });
+    console.log(this.model);
   }
 
   setModel() {
-    Object.keys(this.props).forEach(prop => {
-      this.$set(this.model, prop, this.getInitValue(prop));
-    });
+    this._setModel(
+      Object.entries(this.props).map(([prop, item]) => {
+        return {
+          ...item,
+          prop
+        };
+      })
+    );
+    // Object.keys(this.props).forEach((prop: any) => {
+    //   if (Array.isArray(this.props[prop].children)) {
+    //     //递归的设置 并且收集model
+    //     this.temp(this.props[prop].children);
+    //   } else {
+    //     this.$set(this.model, prop, this.getInitValue(prop));
+    //   }
+    // });
   }
 
+  _setRules() {}
+
   setRules() {
+    // todo
     Object.keys(this.props).forEach(prop => {
       this.$set(this.rules, prop, this.props[prop].rules || []);
     });
@@ -123,6 +160,7 @@ export default class FormGenerator extends Vue {
   }
 
   buildFormItemProp() {
+    this.mergeValue();
     this.setModel();
     this.setRules();
     this.coverRules();
@@ -191,38 +229,19 @@ export default class FormGenerator extends Vue {
       });
       this.props[prop].events = events;
     });
-    console.log(this.props);
-  }
-
-  genFormControl(h: CreateElement, prop: string, item: IFormItem) {
-    var control = (
-      <form-control
-        {...{
-          attrs: {
-            ...item
-          },
-          props: {
-            ...item
-          },
-          on: {
-            ...item.events
-          },
-          ref: prop
-        }}
-        v-model={this.model[prop]}
-      ></form-control>
-    );
-    return control;
   }
 
   render(h: CreateElement) {
+    //渲染的先后顺序的问题
+    var { labelWidth } = this.config as any;
     return (
       <el-form
         {...{
           attrs: this.$attrs,
           props: {
             ...this.$attrs,
-            ...this.layout,
+            ...this.config,
+            labelWidth: labelWidth ? `${labelWidth}px` : null,
             model: this.model,
             rules: this.rules
           },
@@ -231,27 +250,31 @@ export default class FormGenerator extends Vue {
           }
         }}
       >
-        <el-row gutter={this.layout.gutter}>
-          {Object.entries(this.props).map(([prop, item]) => {
-            var slotFunc: any = item.slot ? this.$scopedSlots[item.slot] : null;
-            return (
-              <el-col key={prop} span={item.span || 12}>
-                <el-form-item
-                  {...{
-                    props: item,
-                    attrs: item
-                  }}
-                  prop={prop}
-                  label={item.showLabel ? item.label : ""}
-                >
-                  {typeof slotFunc === "function"
-                    ? slotFunc({ model: this.model })
-                    : this.genFormControl(h, prop, item)}
-                </el-form-item>
-              </el-col>
-            );
-          })}
-        </el-row>
+        {Object.entries(this.props).map(([prop, item]) => {
+          var props: any = {};
+          if (typeof this.model[prop] !== "undefined") {
+            props.value = this.model[prop];
+          }
+          // console.log(this.model, props);
+          return (
+            <element-json-form-item
+              {...{
+                props: {
+                  ...props
+                },
+                on: {
+                  input: val => {
+                    if (item.layout !== "rowFormItem") {
+                      this.model[prop] = val;
+                    }
+                  }
+                }
+              }}
+              key={prop}
+              item={{ ...item, prop }}
+            />
+          );
+        })}
       </el-form>
     );
   }

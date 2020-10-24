@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-20 19:35:48
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 11:27:39
+ * @LastEditTime: 2020-10-24 00:30:25
  */
 export const fetchSuggestionsFragment =
 `/**
@@ -56,4 +56,12 @@ async function fetchData(propValue, model, controlsRefMap) {
 
 }`;
 
+
+export const tableGetDataFragment =`/**
+ * 获取表格的数据
+ * @param {Object} args
+ */
+function getData(args) {
+  return [];
+}`;
 

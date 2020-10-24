@@ -1,7 +1,6 @@
 // 表单属性【右面板】
 export const formConf = {
   formRef: "elForm",
-  formModel: "formData",
   size: "medium",
   labelPosition: "right",
   labelWidth: 100,
@@ -11,6 +10,32 @@ export const formConf = {
   span: 24,
   formBtns: true
 };
+
+export const dataComponents = {
+  table: {
+    columns: {
+      'field1': {
+        label: '列1',
+
+      },
+      'field2': {
+        label: '列2'
+      }
+    },
+    label: '表格',
+    prop: 'table',
+    tag: 'form-table',
+    remote: true,
+    showLabel: true,
+    tagIcon: 'table',
+    layout: "colFormItem",
+    config: {
+      selection: true,
+      showIndex: true,
+      getData: []
+    }
+  }
+}
 
 // 输入型组件 【左面板】
 export const inputComponents = {
@@ -46,7 +71,7 @@ export const inputComponents = {
     labelWidth: null,
     showLabel: true,
     tag: "el-autocomplete",
-    tagIcon: "input",
+    tagIcon: "autocomplete",
     defaultValue: undefined,
     layout: "colFormItem",
     span: 24,
@@ -143,7 +168,6 @@ export const inputComponents = {
   tinymce: {
     label: "编辑器",
     showLabel: true,
-    changeTag: true,
     labelWidth: null,
     tag: "tinymce",
     tagIcon: "rich-text",
@@ -252,7 +276,6 @@ export const selectComponents = {
     layout: "colFormItem",
     rules: [],
     events: [],
-    changeTag: true,
     document: "https://element.eleme.cn/#/zh-CN/component/switch",
     style: {},
     disabled: false,
@@ -455,7 +478,6 @@ export const layoutComponents = [
   {
     label: "按钮",
     showLabel: true,
-    changeTag: true,
     labelWidth: null,
     tag: "el-button",
     tagIcon: "button",

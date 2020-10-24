@@ -2,47 +2,41 @@
  * @Author: JohnYang
  * @Date: 2020-10-15 10:05:07
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-15 12:21:12
+ * @LastEditTime: 2020-10-21 20:21:48
 -->
 
 <script lang="tsx">
 import Vue, { CreateElement } from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import Input from "./Input.vue";
 import BaseControl from "./BaseControl";
 
 @Component({
-  name: "FormControl",
-  components: {
-    Input
-  }
+  name: "FormControl"
 })
-export default class FormControl extends BaseControl {
+export default class FormControl extends Vue {
   @Prop({
-    type: String,
     required: true
   })
-  tag!: string;
+  value!: any;
 
   render(h: CreateElement) {
-    if (this.tag == "el-input") {
-      return (
-        <Input
-          {...{
-            props: this.$attrs,
-            attrs: this.$attrs,
-            on: {
-              ...this.$listeners
-            },
-            scopedSlots: {
-              ...this.$scopedSlots
-            }
-          }}
-          v-model={this.content}
-        />
-      );
-    }
+    var { tag, ...rest } = this.$attrs as any;
+    return h(tag, {
+      props: {
+        ...rest,
+        value: this.value
+      },
+      on: {
+        ...this.$listeners,
+        input: val => {
+          this.$emit("input", val);
+        }
+      },
+      scopedSlots: {
+        ...this.$scopedSlots
+      }
+    });
   }
 }
 </script>

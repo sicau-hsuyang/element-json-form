@@ -17,8 +17,6 @@ export interface InputProps {
 
   showLabel?: boolean;
 
-  changeTag: true;
-
   defaultValue:? any;
 
   required?: boolean;

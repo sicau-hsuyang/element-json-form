@@ -18,6 +18,7 @@
         <template v-if="activeData">
           <InputMeta
             :active-data="activeData"
+            @tag-change="tagChange"
             v-if="
               currentTab === 'field' &&
                 showField &&
@@ -130,6 +131,14 @@
             "
           ></DaterangeMeta>
 
+          <TableMeta
+            :active-data="activeData"
+            v-if="
+              currentTab === 'field' &&
+                showField &&
+                activeData.tag == 'form-table'
+            "
+          ></TableMeta>
           <RateMeta
             :active-data="activeData"
             v-if="
@@ -1219,67 +1228,10 @@
             </template>
           </el-form>
           <!-- 表单属性 -->
-          <el-form
+          <form-meta
             v-show="currentTab === 'form'"
-            size="small"
-            label-width="90px"
-          >
-            <el-form-item label="表单名">
-              <el-input
-                v-model="formConf.formRef"
-                placeholder="请输入表单名（ref）"
-              />
-            </el-form-item>
-            <el-form-item label="表单尺寸">
-              <el-radio-group v-model="formConf.size">
-                <el-radio-button label="medium">
-                  中等
-                </el-radio-button>
-                <el-radio-button label="small">
-                  较小
-                </el-radio-button>
-                <el-radio-button label="mini">
-                  迷你
-                </el-radio-button>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="标签对齐">
-              <el-radio-group v-model="formConf.labelPosition">
-                <el-radio-button label="left">
-                  左对齐
-                </el-radio-button>
-                <el-radio-button label="right">
-                  右对齐
-                </el-radio-button>
-                <el-radio-button label="top">
-                  顶部对齐
-                </el-radio-button>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="标签宽度">
-              <el-input-number
-                v-model.number="formConf.labelWidth"
-                :min="0"
-                label="请输入标签宽度"
-              ></el-input-number>
-            </el-form-item>
-            <el-form-item label="栅格间隔">
-              <el-input-number
-                v-model="formConf.gutter"
-                :min="0"
-                placeholder="栅格间隔"
-              />
-            </el-form-item>
-            <el-form-item label="禁用表单">
-              <el-switch v-model="formConf.disabled" />
-            </el-form-item>
-            <el-form-item label="表单按钮">
-              <el-switch v-model="formConf.formBtns" />
-            </el-form-item>
-            <el-form-item label="显示未选中组件边框">
-              <el-switch v-model="formConf.unFocusedComponentBorder" />
-            </el-form-item>
-          </el-form>
+            :form-conf="formConf"
+          ></form-meta>
         </template>
         <div v-else class="empty-panel">
           从左侧拖入或点选组件进行表单设计
@@ -1325,6 +1277,8 @@ import DaterangeMeta from "@/components/setting-controls/DaterangeMeta.vue";
 import RowMeta from "@/components/setting-controls/RowMeta.vue";
 import TinymceMeta from "@/components/setting-controls/TinymceMeta.vue";
 import UploadMeta from "@/components/setting-controls/UploadMeta.vue";
+import FormMeta from "@/components/setting-controls/FormMeta.vue";
+import TableMeta from "@/components/setting-controls/TableMeta.vue";
 const MonacoEditorDialog = () =>
   import("@/components/controls/MonacoEditorDialog.vue");
 import TreeNodeDialog from "@/views/index/TreeNodeDialog";
@@ -1335,7 +1289,7 @@ import {
   selectComponents,
   layoutComponents
 } from "@/components/generator/config";
-import { saveFormConf } from "@/utils/db";
+import { saveFormConf } from "@/utils/storage";
 
 import {
   validRuleOptions,
@@ -1355,6 +1309,7 @@ export default {
     MonacoEditorDialog,
     IconsDialog,
     FormControl,
+    FormMeta,
     InputMeta,
     TextareaMeta,
     PasswordMeta,
@@ -1372,7 +1327,8 @@ export default {
     RowMeta,
     AutocompleteMeta,
     TinymceMeta,
-    UploadMeta
+    UploadMeta,
+    TableMeta
   },
   provide() {
     var _this = this;
@@ -1705,18 +1661,17 @@ export default {
     setIcon(val) {
       this.activeData[this.currentIconModel] = val;
     },
-    tagChange(tagIcon) {
-      var iComponents = Object.values(inputComponents);
-      var sComponents = Object.values(selectComponents);
-      let target = iComponents.find(item => item.tagIcon === tagIcon);
-      if (!target) target = sComponents.find(item => item.tagIcon === tagIcon);
+    tagChange(target) {
+      // var iComponents = Object.values(inputComponents);
+      // var sComponents = Object.values(selectComponents);
+      // let target = iComponents.find(item => item.tagIcon === tagIcon);
+      // if (!target) target = sComponents.find(item => item.tagIcon === tagIcon);
       this.$emit("tag-change", target);
     },
     changeRenderKey() {
-      console.log(1);
-      // if (needRerenderList.includes(this.activeData.tag)) {
-      // this.activeData.renderKey = +new Date();
-      // }
+      if (needRerenderList.includes(this.activeData.tag)) {
+        this.activeData.renderKey = +new Date();
+      }
     }
   }
 };

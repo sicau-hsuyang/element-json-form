@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-21 15:16:43
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 15:32:08
+ * @LastEditTime: 2020-10-21 16:56:07
 -->
 <template>
   <el-form size="small" label-width="90px">
@@ -115,7 +115,7 @@
         clearable
       />
     </el-form-item>
-    <el-form-item label="列表类型">
+    <el-form-item label="列表类型" label-width="85px">
       <el-radio-group v-model="activeData.listType" size="small">
         <el-radio-button label="text">
           text

@@ -2,132 +2,8 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 22:09:00
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 10:37:35
+ * @LastEditTime: 2020-10-23 22:53:49
 -->
-<template>
-  <el-form size="small" label-width="90px">
-    <el-divider>基本信息</el-divider>
-    <el-form-item label="组件类型">
-      <el-select
-        v-model="activeData.tagIcon"
-        placeholder="请选择组件类型"
-        :style="{ width: '100%' }"
-        @change="tagChange"
-      >
-        <el-option-group
-          v-for="group in tagList"
-          :key="group.label"
-          :label="group.label"
-        >
-          <el-option
-            v-for="item in group.options"
-            :key="item.label"
-            :label="item.label"
-            :value="item.tagIcon"
-          >
-            <svg-icon class="node-icon" :icon-class="item.tagIcon" />
-            <span> {{ item.label }}</span>
-          </el-option>
-        </el-option-group>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="字段名">
-      <el-input
-        v-model="activeData.prop"
-        placeholder="请输入字段名（v-model）"
-      />
-    </el-form-item>
-    <el-form-item label="标题">
-      <el-input v-model="activeData.label" placeholder="请输入标题" />
-    </el-form-item>
-    <el-form-item label="开始占位">
-      <el-input
-        v-model="activeData.startPlaceholder"
-        placeholder="请输入开始占位"
-      />
-    </el-form-item>
-    <el-form-item label="结束占位">
-      <el-input
-        v-model="activeData.endPlaceholder"
-        placeholder="请输入结束占位"
-      />
-    </el-form-item>
-    <el-form-item label="表单栅格">
-      <el-slider
-        v-model="activeData.span"
-        :max="24"
-        :min="1"
-        :marks="{ 12: '' }"
-      />
-    </el-form-item>
-
-    <el-form-item label="标签宽度">
-      <el-input-number
-        v-model.number="activeData.labelWidth"
-        :min="0"
-        label="请输入标签宽度"
-      ></el-input-number>
-    </el-form-item>
-    <el-form-item v-if="activeData.style" label="组件宽度">
-      <el-input
-        v-model="activeData.style.width"
-        placeholder="请输入组件宽度"
-        clearable
-      />
-    </el-form-item>
-    <el-form-item label="默认值">
-      <el-input
-        v-model.number="activeData.defaultValue"
-        placeholder="请输入默认值"
-      ></el-input>
-    </el-form-item>
-    <el-form-item label="时间类型">
-      <el-select
-        v-model="activeData.type"
-        placeholder="请选择时间类型"
-        :style="{ width: '100%' }"
-        @change="dateTypeChange"
-      >
-        <el-option
-          v-for="(item, index) in dateOptions"
-          :key="index"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="分隔符">
-      <el-input :value="activeData.rangeSeparator" placeholder="请输入分隔符" />
-    </el-form-item>
-    <el-form-item label="时间格式">
-      <el-input
-        :value="activeData.format"
-        placeholder="请输入时间格式"
-        @input="setTimeValue($event)"
-      />
-    </el-form-item>
-    <el-form-item label="显示标签">
-      <el-switch v-model="activeData.showLabel" />
-    </el-form-item>
-    <el-form-item label="是否只读">
-      <el-switch v-model="activeData.readonly" />
-    </el-form-item>
-    <el-form-item label="是否清空">
-      <el-switch v-model="activeData.clearable" />
-    </el-form-item>
-    <el-form-item label="是否禁用">
-      <el-switch v-model="activeData.disabled" />
-    </el-form-item>
-    <rules-control
-      v-if="Array.isArray(activeData.rules)"
-      :active-data="activeData"
-    />
-    <events-control
-      v-if="Array.isArray(activeData.events)"
-      :active-data="activeData"
-    />
-  </el-form>
-</template>
 
 <script>
 import Component from "vue-class-component";
@@ -137,7 +13,7 @@ import BaseControl from "./BaseControl.vue";
   name: "DatetimeMeta"
 })
 export default class DatetimeMeta extends BaseControl {
-  dateTypeOptions = [
+  dateOptions = [
     {
       label: "日(date)",
       value: "date"
@@ -182,6 +58,70 @@ export default class DatetimeMeta extends BaseControl {
     this.$set(this.activeData, "defaultValue", null);
     this.$set(this.activeData, "valueFormat", valueFormat);
     this.$set(this.activeData, "format", val);
+  }
+
+  render(h) {
+    return (
+      <el-form size="small" label-width="90px">
+        {this.createHeader(h, false)}
+        <el-form-item label="开始占位">
+          <el-input
+            v-model={this.activeData.startPlaceholder}
+            placeholder="请输入开始占位"
+          />
+        </el-form-item>
+        <el-form-item label="结束占位">
+          <el-input
+            v-model={this.activeData.endPlaceholder}
+            placeholder="请输入结束占位"
+          />
+        </el-form-item>
+
+        <el-form-item label="时间类型">
+          <el-select
+            v-model={this.activeData.type}
+            placeholder="请选择时间类型"
+            style={{ width: "100%" }}
+            on-change={() => {
+              this.dateTypeChange();
+            }}
+          >
+            {this.dateOptions.map((item, index) => {
+              return;
+              <el-option key={index} label={item.label} value={item.value} />;
+            })}
+          </el-select>
+        </el-form-item>
+        <el-form-item label="分隔符">
+          <el-input
+            value={this.activeData.rangeSeparator}
+            placeholder="请输入分隔符"
+          />
+        </el-form-item>
+        <el-form-item label="时间格式">
+          <el-input
+            value={this.activeData.format}
+            placeholder="请输入时间格式"
+            on-input={() => {
+              this.setTimeValue($event);
+            }}
+          />
+        </el-form-item>
+        <el-form-item label="显示标签">
+          <el-switch v-model={this.activeData.showLabel} />
+        </el-form-item>
+        <el-form-item label="是否只读">
+          <el-switch v-model={this.activeData.readonly} />
+        </el-form-item>
+        <el-form-item label="是否清空">
+          <el-switch v-model={this.activeData.clearable} />
+        </el-form-item>
+        <el-form-item label="是否禁用">
+          <el-switch v-model={this.activeData.disabled} />
+        </el-form-item>
+        {this.createFooter(h)}
+      </el-form>
+    );
   }
 }
 </script>

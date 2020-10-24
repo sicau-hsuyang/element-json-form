@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-14 22:25:11
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-18 11:55:01
+ * @LastEditTime: 2020-10-21 16:50:38
  */
 export default [
   {
@@ -10,7 +10,6 @@ export default [
     prop: "mobile",
     labelWidth: null,
     showLabel: true,
-    changeTag: true,
     tag: "el-input",
     type: 'input',
     tagIcon: "input",

@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 12:55:02
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-19 14:43:12
+ * @LastEditTime: 2020-10-21 16:11:04
 -->
 <template>
   <el-form size="small" label-width="90px">
@@ -79,7 +79,7 @@
     <el-form-item label="最大值">
       <el-input-number v-model="activeData.max" placeholder="最大值" />
     </el-form-item>
-    <el-form-item v-if="isShowStep" label="步长">
+    <el-form-item label="步长">
       <el-input-number v-model="activeData.step" placeholder="步数" />
     </el-form-item>
     <el-form-item label="精度">

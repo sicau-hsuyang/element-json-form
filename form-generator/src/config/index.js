@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-15 08:00:48
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-20 20:09:23
+ * @LastEditTime: 2020-10-21 16:50:31
  */
 
 export * from './fragment';
@@ -56,7 +56,6 @@ export function standardControl(control) {
       label: "控件",
       labelWidth: null,
       showLabel: true,
-      changeTag: true,
       defaultValue: undefined,
       required: true,
       layout: "colFormItem",

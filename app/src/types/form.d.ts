@@ -4,7 +4,7 @@ import { IValidatorRule } from "./validator-rules";
  * @Author: JohnYang
  * @Date: 2020-10-13 21:56:19
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-15 20:14:10
+ * @LastEditTime: 2020-10-21 16:48:23
  */
 export interface IFormItem {
   label: string;
@@ -13,7 +13,7 @@ export interface IFormItem {
 
   type?: string;
 
-  multi?: boolean;
+  multiple?: boolean;
 
   slot?: string;
 
@@ -34,7 +34,7 @@ export interface IFormModel {
   [prop: string]: any | any[];
 }
 
-export interface IFormLayout {
+export interface IFormConfig {
   gutter: number;
 }
 

@@ -29,11 +29,11 @@
               :sort="false"
               @end="onEnd"
             >
+              <!-- @click="addComponent(element)" -->
               <div
                 v-for="(element, index) in item.list"
                 :key="index"
                 class="components-item"
-                @click="addComponent(element)"
               >
                 <div class="components-body">
                   <svg-icon :icon-class="element.tagIcon" />
@@ -150,6 +150,7 @@ import {
   inputComponents,
   selectComponents,
   layoutComponents,
+  dataComponents,
   formConf
 } from "@/components/generator/config";
 import {
@@ -177,7 +178,7 @@ import {
   getIdGlobal,
   saveIdGlobal,
   getFormConf
-} from "@/utils/db";
+} from "@/utils/storage";
 import loadBeautifier from "@/utils/loadBeautifier";
 
 let beautifier;
@@ -239,7 +240,7 @@ export default {
         },
         {
           title: "其它组件",
-          list: []
+          list: Object.values(dataComponents)
         }
       ]
     };
@@ -404,17 +405,36 @@ export default {
     },
     reshapeFormData(dataList) {
       //移除用户不关心的配置
-      return dataList.map(x => {
-        const { document, tagIcon, ...rest } = x;
-        return {
-          ...rest
+      var props = {};
+      dataList.forEach(x => {
+        var { document, prop, tagIcon, renderKey, formId, ...rest } = x;
+        if (x.layout === "rowFormItem") {
+          prop = x.componentName;
+        }
+
+        var events = {};
+
+        if (Array.isArray(rest.events)) {
+          rest.events
+            .filter(x => {
+              return x.handler !== "";
+            })
+            .forEach(ev => {
+              events[ev.type] = ev.handler;
+            });
+        }
+
+        props[prop] = {
+          ...rest,
+          events
         };
       });
+      return props;
     },
     AssembleFormData() {
       this.formData = {
-        fields: this.reshapeFormData(deepClone(this.drawingList)),
-        ...this.formConf
+        props: this.reshapeFormData(deepClone(this.drawingList)),
+        config: this.formConf
       };
     },
     generate(data) {
@@ -488,7 +508,7 @@ export default {
     tagChange(newTag) {
       newTag = this.cloneComponent(newTag);
       const config = newTag;
-      newTag.__vModel__ = this.activeData.__vModel__;
+      newTag.prop = this.activeData.prop;
       config.formId = this.activeId;
       config.span = this.activeData.span;
       this.activeData.tag = config.tag;
@@ -517,8 +537,8 @@ export default {
       }
     },
     refreshJson(data) {
-      this.drawingList = deepClone(data.fields);
-      delete data.fields;
+      this.drawingList = deepClone(data.props);
+      delete data.props;
       this.formConf = data;
     }
   }

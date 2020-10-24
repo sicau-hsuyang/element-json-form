@@ -56,7 +56,6 @@ const layouts = {
           label-width={labelWidth}
           rules={config.rules}
           label={config.showLabel ? config.label : ""}
-          required={config.required}
         >
           <render
             key={config.renderKey}
