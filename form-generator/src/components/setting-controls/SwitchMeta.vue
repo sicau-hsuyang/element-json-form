@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 15:31:18
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 00:02:51
+ * @LastEditTime: 2020-10-24 15:19:07
 -->
 
 <script>
@@ -39,7 +39,7 @@ export default class SwitchMeta extends BaseControl {
         </el-form-item>
         <el-form-item label="开启值">
           <el-input
-            value={this.setDefaultValue(activeData.activeValue)}
+            value={this.setDefaultValue(this.activeData.activeValue)}
             placeholder="请输入开启值"
             on-input={() => {
               this.onSwitchValueInput($event, activeValue);
@@ -48,7 +48,7 @@ export default class SwitchMeta extends BaseControl {
         </el-form-item>
         <el-form-item label="关闭值">
           <el-input
-            value={this.setDefaultValue(activeData.inactiveValue)}
+            value={this.setDefaultValue(this.activeData.inactiveValue)}
             placeholder="请输入关闭值"
             on-input={() => {
               this.onSwitchValueInput($event, inactiveValue);

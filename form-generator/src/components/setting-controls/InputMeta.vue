@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 12:55:02
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 00:31:50
+ * @LastEditTime: 2020-10-24 17:02:14
 -->
 
 <script>
@@ -30,6 +30,7 @@ export default class InputMeta extends BaseControl {
 
   created() {
     this.subscribeEvent();
+    console.log(this.activeData);
   }
 
   subscribeEvent() {

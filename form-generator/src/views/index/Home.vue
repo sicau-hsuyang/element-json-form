@@ -29,7 +29,6 @@
               :sort="false"
               @end="onEnd"
             >
-              <!-- @click="addComponent(element)" -->
               <div
                 v-for="(element, index) in item.list"
                 :key="index"

@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 22:09:00
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-23 22:53:49
+ * @LastEditTime: 2020-10-24 15:16:13
 -->
 
 <script>
@@ -13,7 +13,7 @@ import BaseControl from "./BaseControl.vue";
   name: "DatetimeMeta"
 })
 export default class DatetimeMeta extends BaseControl {
-  dateOptions = [
+  dateTypeOptions = [
     {
       label: "日(date)",
       value: "date"
@@ -33,6 +33,21 @@ export default class DatetimeMeta extends BaseControl {
     {
       label: "日期时间(datetime)",
       value: "datetime"
+    }
+  ];
+
+  dateRangeTypeOptions = [
+    {
+      label: "日期范围(daterange)",
+      value: "daterange"
+    },
+    {
+      label: "月范围(monthrange)",
+      value: "monthrange"
+    },
+    {
+      label: "日期时间范围(datetimerange)",
+      value: "datetimerange"
     }
   ];
 

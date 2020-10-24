@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 14:33:47
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-23 22:42:12
+ * @LastEditTime: 2020-10-24 17:18:54
 -->
 <script>
 import Vue from "vue";
@@ -57,10 +57,6 @@ export default class BaseControl extends Vue {
   addValidateRule() {
     var newRule = defaultRule();
     this.activeData.rules.push(newRule);
-  }
-
-  spanChange(val) {
-    this.activeData.span = val;
   }
 
   tagChange(tagIcon) {
@@ -151,9 +147,6 @@ export default class BaseControl extends Vue {
           max={24}
           min={1}
           marks={{ 12: "" }}
-          on-change={() => {
-            this.spanChange();
-          }}
         />
       </el-form-item>
     );

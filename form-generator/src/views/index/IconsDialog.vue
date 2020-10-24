@@ -5,6 +5,7 @@
       width="980px"
       :modal-append-to-body="false"
       v-on="$listeners"
+      :visible.sync="visible"
       @open="onOpen"
       @close="onClose"
     >
@@ -44,6 +45,7 @@ export default {
   data() {
     return {
       iconList: originList,
+      visible: false,
       active: null,
       key: ""
     };
@@ -62,7 +64,12 @@ export default {
       this.active = this.current;
       this.key = "";
     },
-    onClose() {},
+    openDialog() {
+      this.visible = true;
+    },
+    onClose() {
+      this.visible = false;
+    },
     onSelect(icon) {
       this.active = icon;
       this.$emit("select", icon);

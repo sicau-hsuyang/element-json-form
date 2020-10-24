@@ -2,9 +2,8 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 20:21:40
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 11:39:32
+ * @LastEditTime: 2020-10-24 15:46:05
 -->
-<template> </template>
 
 <script>
 import Component from "vue-class-component";

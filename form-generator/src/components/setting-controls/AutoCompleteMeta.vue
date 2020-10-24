@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 12:55:02
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-23 22:27:25
+ * @LastEditTime: 2020-10-24 16:56:15
 -->
 <script>
 import BaseControl from "@/components/setting-controls/BaseControl";
@@ -20,30 +20,61 @@ export default class AutoCompleteMeta extends BaseControl {
   @Inject("panel")
   panel;
 
+  currentKey = "";
+
   open(icon) {
     this.panel.openIconsDialog(icon);
   }
 
+  created() {
+    this.setEventListener();
+  }
+
   setEventListener() {
     this.panel &&
-      this.$on("change", content => {
-        this.activeData.fetchSuggestions = content;
+      this.$on("monaco-change", content => {
+        if (this.currentKey === "fetchSuggestions") {
+          this.activeData[this.currentKey] = content;
+        } else {
+          this.activeData.slots[this.currentKey] = content;
+        }
       });
   }
 
-  handleFocus() {
-    this.panel.openMonacoDialog(fetchSuggestionsFragment);
-    this.setEventListener();
+  setInit() {
+    var content = "";
+    if (this.currentKey === "fetchSuggestions") {
+      content = this.activeData[this.currentKey];
+    } else {
+      content = this.activeData.slots[this.currentKey];
+    }
+    return String(content);
+  }
+
+  handleFocus(prop) {
+    this.currentKey = prop;
+    if (this.panel) {
+      this.panel.openMonacoDialog(this.setInit() || fetchSuggestionsFragment);
+      this.panel.setAsCurrentUser(this);
+    }
   }
 
   render(h) {
     return (
       <el-form size="small" label-width="90px">
         {this.createHeader(h)}
-        <el-form-item label="占位提示">
+        <el-form-item label="fetchSuggestions" label-width="120px">
           <el-input
-            v-model={this.activeData.placeholder}
-            placeholder="请输入占位提示"
+            value={
+              typeof this.activeData.fetchSuggestions == "string"
+                ? this.activeData.fetchSuggestions
+                : String(this.activeData.fetchSuggestions)
+            }
+            placeholder="请输入fetchSuggestions"
+            on-focus={() => {
+              this.handleFocus("fetchSuggestions");
+            }}
+            type="textarea"
           />
         </el-form-item>
         {this.activeData.slots && (
@@ -52,6 +83,9 @@ export default class AutoCompleteMeta extends BaseControl {
               v-model={this.activeData.slots.prepend}
               placeholder="请输入前缀"
               type="textarea"
+              on-focus={() => {
+                this.handleFocus("prepend");
+              }}
             />
           </el-form-item>
         )}
@@ -61,6 +95,9 @@ export default class AutoCompleteMeta extends BaseControl {
               v-model={this.activeData.slots.append}
               placeholder="请输入后缀"
               type="textarea"
+              on-focus={() => {
+                this.handleFocus("append");
+              }}
             />
           </el-form-item>
         )}

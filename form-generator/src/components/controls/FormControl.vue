@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-08-16 20:23:25
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 14:12:05
+ * @LastEditTime: 2020-10-24 17:14:48
 -->
 <script>
 export default {
@@ -51,7 +51,7 @@ export default {
   // eslint-disable-next-line no-unused-vars
   render(h) {
     let { options, groups, optionsMapping, multiple, style } = this.$attrs;
-    let controlType = this.type || "input";
+    let controlType = this.type || "text";
     if (controlType === "select") {
       return (
         <el-select
@@ -147,8 +147,8 @@ export default {
               value: this.value
             },
             attrs: {
-              ...this.$attrs,
-              ...this.$props
+              ...this.$props,
+              ...this.$attrs
             },
             on: {
               ...this.$listeners,

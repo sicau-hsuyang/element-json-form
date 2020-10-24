@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-14 22:25:11
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 16:50:38
+ * @LastEditTime: 2020-10-24 17:13:48
  */
 export default [
   {
@@ -11,7 +11,7 @@ export default [
     labelWidth: null,
     showLabel: true,
     tag: "el-input",
-    type: 'input',
+    type: "text",
     tagIcon: "input",
     defaultValue: undefined,
     layout: "colFormItem",

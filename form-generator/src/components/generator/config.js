@@ -1,3 +1,4 @@
+import { fetchSuggestionsFragment } from "@/config";
 // 表单属性【右面板】
 export const formConf = {
   formRef: "elForm",
@@ -14,20 +15,19 @@ export const formConf = {
 export const dataComponents = {
   table: {
     columns: {
-      'field1': {
-        label: '列1',
-
+      field1: {
+        label: "列1"
       },
-      'field2': {
-        label: '列2'
+      field2: {
+        label: "列2"
       }
     },
-    label: '表格',
-    prop: 'table',
-    tag: 'form-table',
+    label: "表格",
+    prop: "table",
+    tag: "form-table",
     remote: true,
     showLabel: true,
-    tagIcon: 'table',
+    tagIcon: "table",
     layout: "colFormItem",
     config: {
       selection: true,
@@ -35,7 +35,7 @@ export const dataComponents = {
       getData: []
     }
   }
-}
+};
 
 // 输入型组件 【左面板】
 export const inputComponents = {
@@ -45,7 +45,7 @@ export const inputComponents = {
     showLabel: true,
     tag: "el-input",
     tagIcon: "input",
-    type: 'input',
+    type: "text",
     defaultValue: undefined,
     layout: "colFormItem",
     span: 24,
@@ -84,6 +84,7 @@ export const inputComponents = {
     },
     placeholder: "请输入",
     style: { width: "100%" },
+    fetchSuggestions: fetchSuggestionsFragment,
     clearable: true,
     prefixIcon: "",
     suffixIcon: "",
@@ -98,7 +99,7 @@ export const inputComponents = {
     showLabel: true,
     tag: "el-input",
     tagIcon: "textarea",
-    type: 'textarea',
+    type: "textarea",
     defaultValue: undefined,
     layout: "colFormItem",
     span: 24,
@@ -122,7 +123,7 @@ export const inputComponents = {
     labelWidth: null,
     tag: "el-input",
     tagIcon: "password",
-    type: 'password',
+    type: "password",
     defaultValue: undefined,
     layout: "colFormItem",
     span: 24,
@@ -183,7 +184,6 @@ export const inputComponents = {
   }
 };
 
-
 // 选择型组件 【左面板】
 export const selectComponents = {
   select: {
@@ -195,7 +195,7 @@ export const selectComponents = {
     layout: "colFormItem",
     span: 24,
     options: [],
-    getOptions: '',
+    getOptions: "",
     rules: [],
     events: [],
     document: "https://element.eleme.cn/#/zh-CN/component/select",
@@ -205,7 +205,7 @@ export const selectComponents = {
     disabled: false,
     filterable: false,
     multiple: false,
-    remote: false,
+    remote: false
   },
   radio: {
     label: "单选框组",
@@ -308,6 +308,7 @@ export const selectComponents = {
   "time-picker": {
     label: "时间选择",
     tag: "el-time-picker",
+    type: "time",
     tagIcon: "time",
     defaultValue: null,
     span: 24,
@@ -330,10 +331,11 @@ export const selectComponents = {
     format: "HH:mm:ss",
     valueFormat: "HH:mm:ss"
   },
-  "timerange": {
+  timerange: {
     label: "时间范围",
     isRange: true,
     tag: "el-time-picker",
+    type: "timerange",
     tagIcon: "time-range",
     span: 24,
     showLabel: true,

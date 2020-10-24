@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 15:03:20
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-23 22:34:30
+ * @LastEditTime: 2020-10-24 15:16:57
 -->
 
 <script>
@@ -23,7 +23,6 @@ export default class CheckboxMeta extends BaseControl {
   render(h) {
     return (
       <el-form size="small" label-width="90px">
-        <el-divider>基本信息</el-divider>
         {this.createHeader(h)}
         <el-divider>选项</el-divider>
         <draggable
@@ -46,7 +45,7 @@ export default class CheckboxMeta extends BaseControl {
                 <el-input
                   placeholder="选项值"
                   size="small"
-                  value={tem.value}
+                  value={item.value}
                   on-input={event => {
                     this.setOptionValue(item, $event);
                   }}

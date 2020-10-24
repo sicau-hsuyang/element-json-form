@@ -2,9 +2,8 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 08:43:28
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-23 23:22:01
+ * @LastEditTime: 2020-10-24 15:44:20
 -->
-<template> </template>
 
 <script>
 import FormControl from "@/components/controls/FormControl.vue";
