@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 12:55:02
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 17:02:14
+ * @LastEditTime: 2020-10-26 16:52:28
 -->
 
 <script>
@@ -24,13 +24,15 @@ export default class InputMeta extends BaseControl {
 
   currentSetProp = null;
 
+  iconSetProp = null;
+
   open(icon) {
+    this.iconSetProp = icon;
     this.panel.openIconsDialog(icon);
   }
 
   created() {
     this.subscribeEvent();
-    console.log(this.activeData);
   }
 
   subscribeEvent() {
@@ -98,6 +100,7 @@ export default class InputMeta extends BaseControl {
           <el-input
             v-model={this.activeData.suffixIcon}
             placeholder="请输入后图标名称"
+            clearable
           >
             <el-button
               slot="append"

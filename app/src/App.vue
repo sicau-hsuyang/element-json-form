@@ -2,71 +2,124 @@
  * @Author: JohnYang
  * @Date: 2020-10-13 20:50:37
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 20:20:16
+ * @LastEditTime: 2020-10-26 21:09:03
 -->
 <template>
   <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <ElementJsonForm v-bind="{ ...demo }" />
+    <el-form-generator :config="demo.config" :props="demo.props" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import ElementJsonForm from "@/components/ElementJsonForm/form.vue";
+
 @Component({
-  components: {
-    ElementJsonForm
-  }
+  name: "App"
 })
 export default class App extends Vue {
   demo = {
     props: {
-      mobile: {
-        label: "单行文本",
-        labelWidth: 0,
+      province: {
+        label: "省",
         showLabel: true,
-        tag: "el-input",
-        type: "input",
+        labelWidth: 0,
+        tag: "el-select",
         layout: "colFormItem",
         span: 24,
+        options: [],
+        getDataList: "",
         rules: [],
-        events: [
+        events: {},
+        placeholder: "请选择",
+        style: {
+          width: "100%"
+        },
+        clearable: true,
+        disabled: false,
+        filterable: false,
+        multiple: false,
+        remote: false,
+        className: []
+      },
+      city: {
+        label: "市",
+        showLabel: true,
+        labelWidth: 0,
+        tag: "el-select",
+        layout: "colFormItem",
+        span: 24,
+        options: [],
+        getDataList: function() {
+          console.log("fetch city");
+        },
+        rules: [],
+        events: {
+          change() {
+            console.log("city");
+          }
+        },
+        placeholder: "请选择",
+        style: {
+          width: "100%"
+        },
+        clearable: true,
+        disabled: false,
+        filterable: false,
+        multiple: false,
+        className: []
+      },
+      country: {
+        label: "县",
+        showLabel: true,
+        labelWidth: 0,
+        tag: "el-select",
+        layout: "colFormItem",
+        span: 24,
+        options: [],
+        getDataList: "",
+        rules: [],
+        events: {},
+        placeholder: "请选择",
+        style: {
+          width: "100%"
+        },
+        clearable: true,
+        disabled: false,
+        filterable: false,
+        multiple: false,
+        remote: false
+      },
+      password: {
+        label: "密码",
+        showLabel: true,
+        labelWidth: 0,
+        tag: "el-input",
+        type: "password",
+        layout: "colFormItem",
+        span: 24,
+        rules: [
           {
-            type: "change",
-            handler: ""
+            method: 1,
+            required: true,
+            pattern: "",
+            message: "请输入密码",
+            type: "string",
+            validator: "",
+            trigger: ["blur", "change"]
           }
         ],
+        events: {
+          change: function eventHandler(propValue, model, controlRefs) {
+            console.log(1);
+          }
+        },
         slots: {
           prepend: "",
           append: ""
         },
-        placeholder: "请输入手机号单行文本",
-        style: {
-          width: "100%"
-        },
-        clearable: true,
-        prefixIcon: "el-icon-mobile",
-        suffixIcon: "",
-        maxlength: 11,
-        showWordLimit: true,
-        readonly: false,
-        disabled: false
-      },
-      field107: {
-        label: "单行带建议",
-        labelWidth: 0,
-        showLabel: true,
-        tag: "el-autocomplete",
-        layout: "colFormItem",
-        span: 24,
-        rules: [],
-        events: [],
-        slots: {
-          prepend: "",
-          append: ""
-        },
-        placeholder: "请输入单行带建议",
+        placeholder: "请输入密码",
+        showPassword: true,
         style: {
           width: "100%"
         },
@@ -74,120 +127,78 @@ export default class App extends Vue {
         prefixIcon: "",
         suffixIcon: "",
         maxlength: null,
-        showWordLimit: true,
+        showWordLimit: false,
         readonly: false,
-        disabled: false
-      },
-      field108: {
-        label: "单行文本",
-        labelWidth: 0,
-        showLabel: true,
-        tag: "el-input",
-        type: "input",
-        layout: "colFormItem",
-        span: 24,
-        rules: [],
-        events: [],
-        slots: {
-          prepend: "",
-          append: ""
-        },
-        placeholder: "请输入单行文本",
-        style: {
-          width: "100%"
-        },
-        clearable: true,
-        prefixIcon: "",
-        suffixIcon: "",
-        maxlength: null,
-        showWordLimit: true,
-        readonly: false,
-        disabled: false
-      },
-      field109: {
-        label: "开关",
-        tag: "el-switch",
-        defaultValue: false,
-        showLabel: true,
-        labelWidth: 0,
-        layout: "colFormItem",
-        rules: [],
-        events: [],
-        style: {},
         disabled: false,
-        activeText: "",
-        inactiveText: "",
-        activeColor: null,
-        inactiveColor: null,
-        activeValue: true,
-        inactiveValue: false
+        className: []
       },
-      row110: {
-        layout: "rowFormItem",
-        layoutTree: true,
-        type: "default",
-        justify: "start",
-        align: "top",
+      repassword: {
+        label: "重复密码",
+        showLabel: true,
+        labelWidth: 0,
+        tag: "el-input",
+        type: "password",
+        layout: "colFormItem",
         span: 24,
-        componentName: "row110",
-        children: [
+        rules: [
           {
-            label: "评分",
-            tag: "el-rate",
-            tagIcon: "rate",
-            defaultValue: 0,
-            span: 12,
-            showLabel: true,
-            labelWidth: 0,
-            layout: "colFormItem",
-            rules: [],
-            events: [],
-            document: "https://element.eleme.cn/#/zh-CN/component/rate",
-            style: {},
-            max: 5,
-            allowHalf: false,
-            showText: false,
-            showScore: false,
-            disabled: false,
-            formId: 112,
-            renderKey: "1121603280345020",
-            prop: "field112"
+            method: 1,
+            required: true,
+            pattern: "",
+            message: "请再次输入密码",
+            type: "string",
+            validator: "",
+            trigger: ["blur", "change"]
           },
           {
-            label: "颜色选择",
-            tag: "el-color-picker",
-            tagIcon: "color",
-            span: 12,
-            defaultValue: "#cccccc",
-            showLabel: true,
-            labelWidth: 0,
-            layout: "colFormItem",
-            rules: [],
-            events: [],
-            document: "https://element.eleme.cn/#/zh-CN/component/color-picker",
-            showAlpha: false,
-            colorFormat: "",
-            disabled: false,
-            size: "medium",
-            formId: 111,
-            renderKey: "1111603279668844",
-            prop: "field111"
+            method: 0,
+            required: true,
+            pattern: "",
+            message: "",
+            type: "string",
+            validator:
+              '/**\n * 自定义验证器方法\n * @param {*} rule 当前规则\n * @param {any} value 当前字段对应的值\n * @param {Function} callback 验证的回调函数\n * @param {Object} model 当前form的模型\n */\nfunction validator(rule, value, callback, model) {\n    if(model.password !== value) {\n       return callback(new Error("两次密码输入不一致"));\n    }\n    callback();\n}',
+            trigger: ["blur", "change"]
           }
-        ]
+        ],
+        events: {
+          change: function eventHandler(propValue, model, controlRefs) {
+            console.log(propValue, model, controlRefs);
+            console.log(controlRefs.city.$emit("change"));
+            model.password = "yangxuxuxuxuxxu";
+          }
+        },
+        slots: {
+          prepend: "",
+          append: ""
+        },
+        placeholder: "请再次输入密码",
+        showPassword: true,
+        style: {
+          width: "100%"
+        },
+        clearable: true,
+        prefixIcon: "",
+        suffixIcon: "",
+        maxlength: null,
+        showWordLimit: false,
+        readonly: false,
+        disabled: false,
+        className: []
       }
     },
     config: {
       formRef: "elForm",
-      formModel: "formData",
       size: "medium",
       labelPosition: "right",
       labelWidth: 100,
-      formRules: "rules",
       gutter: 15,
       disabled: false,
       span: 24,
-      formBtns: true,
-      unFocusedComponentBorder: true
+      created: "",
+      mounted: "",
+      beforeDestroy: "",
+      formBtns: true
     }
   };
 

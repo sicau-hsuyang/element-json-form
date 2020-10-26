@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-16 08:43:28
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 15:44:20
+ * @LastEditTime: 2020-10-26 20:36:07
 -->
 
 <script>
@@ -41,7 +41,7 @@ export default class SelectMeta extends BaseControl {
   handleFocus() {
     if (this.panel) {
       this.panel.openMonacoDialog(
-        this.activeData.getOptions || fetchRemoteDataSourceFragment
+        this.activeData.getDataList || fetchRemoteDataSourceFragment
       );
       this.panel.setAsCurrentUser(this);
     }
@@ -49,7 +49,7 @@ export default class SelectMeta extends BaseControl {
 
   subscribeEvent() {
     this.$on("monaco-change", content => {
-      this.activeData.getOptions = content;
+      this.activeData.getDataList = content;
     });
   }
 
@@ -64,7 +64,7 @@ export default class SelectMeta extends BaseControl {
     if (this.activeData.remote) {
       this.activeData.options = [];
     } else {
-      this.activeData.getOptions = "";
+      this.activeData.getDataList = "";
     }
   }
 
@@ -145,7 +145,7 @@ export default class SelectMeta extends BaseControl {
         {this.activeData.remote ? (
           <el-form-item label="数据获取">
             <form-control
-              v-model={this.activeData.getOptions}
+              v-model={this.activeData.getDataList}
               type="textarea"
               on-focus={() => {
                 this.handleFocus();

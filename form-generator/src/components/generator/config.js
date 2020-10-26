@@ -1,14 +1,15 @@
-import { fetchSuggestionsFragment } from "@/config";
 // 表单属性【右面板】
 export const formConf = {
   formRef: "elForm",
   size: "medium",
   labelPosition: "right",
   labelWidth: 100,
-  formRules: "rules",
   gutter: 15,
   disabled: false,
   span: 24,
+  created: "",
+  mounted: "",
+  beforeDestroy: "",
   formBtns: true
 };
 
@@ -43,6 +44,7 @@ export const inputComponents = {
     label: "单行文本",
     labelWidth: null,
     showLabel: true,
+    className: [],
     tag: "el-input",
     tagIcon: "input",
     type: "text",
@@ -69,6 +71,7 @@ export const inputComponents = {
   autocomplete: {
     label: "单行带建议",
     labelWidth: null,
+    className: [],
     showLabel: true,
     tag: "el-autocomplete",
     tagIcon: "autocomplete",
@@ -84,7 +87,7 @@ export const inputComponents = {
     },
     placeholder: "请输入",
     style: { width: "100%" },
-    fetchSuggestions: fetchSuggestionsFragment,
+    fetchSuggestions: null,
     clearable: true,
     prefixIcon: "",
     suffixIcon: "",
@@ -195,7 +198,7 @@ export const selectComponents = {
     layout: "colFormItem",
     span: 24,
     options: [],
-    getOptions: "",
+    getDataList: "",
     rules: [],
     events: [],
     document: "https://element.eleme.cn/#/zh-CN/component/select",

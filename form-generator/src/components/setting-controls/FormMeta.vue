@@ -2,10 +2,11 @@
  * @Author: JohnYang
  * @Date: 2020-10-21 16:16:35
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 16:20:11
+ * @LastEditTime: 2020-10-26 13:29:52
 -->
 <template>
   <el-form size="small" label-width="90px">
+    <el-divider>基本信息</el-divider>
     <el-form-item label="表单名">
       <el-input v-model="formConf.formRef" placeholder="请输入表单名（ref）" />
     </el-form-item>
@@ -58,12 +59,37 @@
     <el-form-item label="显示未选中组件边框">
       <el-switch v-model="formConf.unFocusedComponentBorder" />
     </el-form-item>
+    <el-divider>生命周期(非必须)</el-divider>
+    <el-form-item label="created">
+      <el-input
+        v-model="formConf.created"
+        @focus="handleFocus('created')"
+        type="textarea"
+        placeholder="请输入"
+      ></el-input>
+    </el-form-item>
+    <el-form-item label="mounted">
+      <el-input
+        v-model="formConf.mounted"
+        type="textarea"
+        @focus="handleFocus('mounted')"
+        placeholder="请输入"
+      ></el-input>
+    </el-form-item>
+    <el-form-item label="beforeDestroy">
+      <el-input
+        v-model="formConf.beforeDestroy"
+        @focus="handleFocus('beforeDestroy')"
+        type="textarea"
+        placeholder="请输入"
+      ></el-input>
+    </el-form-item>
   </el-form>
 </template>
 
 <script>
 import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { Inject, Prop } from "vue-property-decorator";
 
 @Component({
   name: "FormMeta"
@@ -74,5 +100,15 @@ export default class FormMeta extends Vue {
     type: Object
   })
   formConf;
+
+  @Inject("panel")
+  panel;
+
+  currentProp;
+
+  handleFocus(prop) {
+    this.currentProp = prop;
+    this.panel && this.panel.openMonacoDialog(this.formConf[this.currentProp]);
+  }
 }
 </script>

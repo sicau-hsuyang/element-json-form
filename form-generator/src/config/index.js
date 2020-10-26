@@ -2,14 +2,23 @@
  * @Author: JohnYang
  * @Date: 2020-10-15 08:00:48
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-21 16:50:31
+ * @LastEditTime: 2020-10-24 21:09:06
  */
 
-export * from './fragment';
+export * from "./fragment";
 
 const controlEventsMap = {
   "el-input": ["change", "clear", "blur"],
-  "el-autocomplete": ['select', 'change'],
+  "el-autocomplete": ["select", "change"],
+  "el-input-number": ["change", "focus", "blur"],
+  "el-slider": ["input", "change"],
+  "el-radio-group": ["change"],
+  "el-checkbox-group": ["change"],
+  "el-switch": ["change"],
+  "el-time-picker": ["change", "blur", "focus"],
+  "el-date-picker": ["change", "blur", "focus"],
+  "el-rate": ["change"],
+  "el-color-picker": ["change", "active-change"]
 };
 
 export const validRuleOptions = [
@@ -30,14 +39,17 @@ export const triggerOptions = ["blur", "change"].map(x => {
   };
 });
 
-export const asyncValidatorProvideTypes = ["string", "number", 'boolean',"array"].map(
-  x => {
-    return {
-      label: x,
-      value: x
-    };
-  }
-);
+export const asyncValidatorProvideTypes = [
+  "string",
+  "number",
+  "boolean",
+  "array"
+].map(x => {
+  return {
+    label: x,
+    value: x
+  };
+});
 
 export const requiredOptions = [
   {
@@ -99,4 +111,17 @@ export const dateTimeFormat = {
   daterange: "yyyy-MM-dd",
   monthrange: "yyyy-MM",
   datetimerange: "yyyy-MM-dd HH:mm:ss"
+};
+
+export const defaultPropMapping = {
+  label: "标题",
+  showLabel: true,
+  disabled: false,
+  placeholder: "",
+  span: 24,
+  labelWidth: 0,
+  style: {
+    width: "100%"
+  },
+  defaultValue: ""
 };

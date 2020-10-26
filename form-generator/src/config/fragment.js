@@ -2,10 +2,9 @@
  * @Author: JohnYang
  * @Date: 2020-10-20 19:35:48
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 00:30:25
+ * @LastEditTime: 2020-10-26 13:32:15
  */
-export const fetchSuggestionsFragment =
-`/**
+export const fetchSuggestionsFragment = `/**
  * 返回输入建议的方法，仅当你的输入建议数据 resolve 时，通过调用 callback(data:[]) 来返回它
  * @param {String} queryString
  * @param {Function} callback
@@ -23,8 +22,7 @@ function slotRender(h) {
 
 }`;
 
-export const validatorFragment =
-`/**
+export const validatorFragment = `/**
  * 自定义验证器方法
  * @param {*} rule 当前规则
  * @param {any} value 当前字段对应的值
@@ -45,8 +43,7 @@ function eventHandler(propValue, model, controlRefs) {
 
 }`;
 
-
-export const fetchRemoteDataSourceFragment =`/**
+export const fetchRemoteDataSourceFragment = `/**
  * 获取远程的数据
  * @param {any} propValue
  * @param {Object} model
@@ -56,8 +53,7 @@ async function fetchData(propValue, model, controlsRefMap) {
 
 }`;
 
-
-export const tableGetDataFragment =`/**
+export const tableGetDataFragment = `/**
  * 获取表格的数据
  * @param {Object} args
  */
@@ -65,3 +61,9 @@ function getData(args) {
   return [];
 }`;
 
+export const lifecycleFragment = `/**
+ * 生命周期
+ */
+function callback() {
+
+}`;

@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-14 22:25:11
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 16:50:08
+ * @LastEditTime: 2020-10-24 21:31:09
  */
 import { deepClone, parseFunc } from "@/utils";
 import FormRadio from "@/components/controls/FormRadio.vue";
@@ -27,7 +27,7 @@ export default {
     const conf = deepClone(this.conf);
     var tag = conf.tag;
     var type = conf.type;
-
+    var events = {};
     switch (tag) {
       case "el-input":
         tag = "form-control";
@@ -63,7 +63,8 @@ export default {
         tag = "form-upload";
         break;
     }
-    const { style, ...rest } = conf;
+    const { style, className, ...rest } = conf;
+
     return h(tag, {
       props: {
         ...rest,
@@ -73,10 +74,12 @@ export default {
       attrs: {
         ...rest
       },
+      class: className,
       style: {
         ...style
       },
       on: {
+        ...events,
         input: val => {
           this.$emit("input", val);
         }

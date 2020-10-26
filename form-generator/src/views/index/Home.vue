@@ -246,21 +246,6 @@ export default {
   },
   computed: {},
   watch: {
-    activeData: {
-      handler: function(val, oldVal) {
-        if (
-          !this.activeData ||
-          this.activeData.placeholder === undefined ||
-          !this.activeData.tag ||
-          oldActiveId !== this.activeId
-        ) {
-          return;
-        }
-        this.activeData.placeholder =
-          this.activeData.placeholder.replace(oldVal.label, "") + val.label;
-      },
-      deep: true
-    },
     activeId: {
       handler(val) {
         oldActiveId = val;

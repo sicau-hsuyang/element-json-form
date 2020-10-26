@@ -236,10 +236,12 @@ export default {
     />*/}
         <icons-dialog
           ref="icon"
-          current={this.activeData && this.activeData[this.currentIconModel]}
-          on-select={() => {
-            this.setIcon();
+          {...{
+            on: {
+              select: this.setIcon
+            }
           }}
+          current={this.activeData && this.activeData[this.currentIconModel]}
         />
       </div>
     );
@@ -388,6 +390,7 @@ export default {
       this.monacoEditor && this.monacoEditor.openDialog(content);
     },
     openIconsDialog(model) {
+      console.log(model);
       this.icon && this.icon.openDialog();
       this.currentIconModel = model;
     },

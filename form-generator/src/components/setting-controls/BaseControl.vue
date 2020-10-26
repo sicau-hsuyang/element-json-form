@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 14:33:47
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 17:18:54
+ * @LastEditTime: 2020-10-24 21:30:24
 -->
 <script>
 import Vue from "vue";
@@ -11,6 +11,7 @@ import { Prop } from "vue-property-decorator";
 import { isNumberStr } from "@/utils/index";
 import RulesControl from "./RulesControl.vue";
 import EventsControl from "./EventsControl.vue";
+import FormControl from "@/components/controls/FormControl.vue";
 import {
   inputComponents,
   selectComponents,
@@ -20,7 +21,8 @@ import {
   name: "BaseControl",
   components: {
     RulesControl,
-    EventsControl
+    EventsControl,
+    FormControl
   }
 })
 export default class BaseControl extends Vue {
@@ -140,6 +142,18 @@ export default class BaseControl extends Vue {
           />
         </el-form-item>
       );
+    eles.push(
+      <el-form-item label="组件样式">
+        <form-control
+          style={{ width: "100%" }}
+          v-model={this.activeData.className}
+          type="select"
+          multiple
+          filterable
+          allow-create
+        ></form-control>
+      </el-form-item>
+    );
     eles.push(
       <el-form-item label="表单栅格">
         <el-slider
