@@ -20,6 +20,7 @@ import RowMeta from "@/components/setting-controls/RowMeta.vue";
 import TinymceMeta from "@/components/setting-controls/TinymceMeta.vue";
 import UploadMeta from "@/components/setting-controls/UploadMeta.vue";
 import FormMeta from "@/components/setting-controls/FormMeta.vue";
+import TextMeta from "@/components/setting-controls/TextMeta.vue";
 import TableMeta from "@/components/setting-controls/TableMeta.vue";
 const MonacoEditorDialog = () =>
   import("@/components/controls/MonacoEditorDialog.vue");
@@ -71,7 +72,8 @@ export default {
     AutocompleteMeta,
     TinymceMeta,
     UploadMeta,
-    TableMeta
+    TableMeta,
+    TextMeta
   },
   provide() {
     var _this = this;
@@ -249,6 +251,7 @@ export default {
   methods: {
     findFormControl(tag, type) {
       var map = {
+        span: "TextMeta",
         "el-input": {
           text: "InputMeta",
           password: "PasswordMeta",

@@ -38,6 +38,23 @@ export const dataComponents = {
   }
 };
 
+export const displayComponents = {
+  span: {
+    label: "普通文本",
+    tag: "span",
+    labelWidth: null,
+    showLabel: true,
+    className: [],
+    transform: "",
+    tagIcon: "text",
+    type: "text",
+    defaultValue: undefined,
+    layout: "colFormItem",
+    span: 24,
+    style: { width: "100%" }
+  }
+};
+
 // 输入型组件 【左面板】
 export const inputComponents = {
   input: {
@@ -49,6 +66,7 @@ export const inputComponents = {
     tagIcon: "input",
     type: "text",
     defaultValue: undefined,
+    transformRule: null,
     layout: "colFormItem",
     span: 24,
     document: "https://element.eleme.cn/#/zh-CN/component/input",
@@ -104,6 +122,7 @@ export const inputComponents = {
     tagIcon: "textarea",
     type: "textarea",
     defaultValue: undefined,
+    transformRule: null,
     layout: "colFormItem",
     span: 24,
     rules: [],
@@ -155,6 +174,7 @@ export const inputComponents = {
     tag: "el-input-number",
     tagIcon: "number",
     defaultValue: undefined,
+    transformRule: null,
     span: 24,
     layout: "colFormItem",
     rules: [],
@@ -176,6 +196,7 @@ export const inputComponents = {
     tag: "tinymce",
     tagIcon: "rich-text",
     defaultValue: null,
+    transformRule: null,
     span: 24,
     layout: "colFormItem",
     rules: [],
@@ -217,6 +238,7 @@ export const selectComponents = {
     tag: "el-radio-group",
     tagIcon: "radio",
     defaultValue: 1,
+    transformRule: null,
     layout: "colFormItem",
     span: 24,
     optionType: "default",
@@ -243,6 +265,7 @@ export const selectComponents = {
     tag: "el-checkbox-group",
     tagIcon: "checkbox",
     defaultValue: [],
+    transformRule: null,
     span: 24,
     showLabel: true,
     labelWidth: null,
@@ -273,6 +296,7 @@ export const selectComponents = {
     tag: "el-switch",
     tagIcon: "switch",
     defaultValue: false,
+    transformRule: null,
     span: 24,
     showLabel: true,
     labelWidth: null,
@@ -294,6 +318,7 @@ export const selectComponents = {
     tag: "el-slider",
     tagIcon: "slider",
     defaultValue: null,
+    transformRule: null,
     span: 24,
     showLabel: true,
     layout: "colFormItem",
@@ -314,6 +339,7 @@ export const selectComponents = {
     type: "time",
     tagIcon: "time",
     defaultValue: null,
+    transformRule: null,
     span: 24,
     showLabel: true,
     layout: "colFormItem",
@@ -345,6 +371,7 @@ export const selectComponents = {
     labelWidth: null,
     layout: "colFormItem",
     defaultValue: null,
+    transformRule: null,
     rules: [],
     events: [],
     document: "https://element.eleme.cn/#/zh-CN/component/time-picker",
@@ -363,6 +390,7 @@ export const selectComponents = {
     tag: "el-date-picker",
     tagIcon: "date",
     defaultValue: null,
+    transformRule: null,
     showLabel: true,
     labelWidth: null,
     span: 24,
@@ -384,6 +412,7 @@ export const selectComponents = {
     tag: "el-date-picker",
     tagIcon: "date-range",
     defaultValue: null,
+    transformRule: null,
     span: 24,
     showLabel: true,
     labelWidth: null,
@@ -407,6 +436,7 @@ export const selectComponents = {
     tag: "el-rate",
     tagIcon: "rate",
     defaultValue: 0,
+    transformRule: null,
     span: 24,
     showLabel: true,
     labelWidth: null,
@@ -427,6 +457,7 @@ export const selectComponents = {
     tagIcon: "color",
     span: 24,
     defaultValue: null,
+    transformRule: null,
     showLabel: true,
     labelWidth: null,
     layout: "colFormItem",
@@ -444,6 +475,7 @@ export const selectComponents = {
     tagIcon: "upload",
     layout: "colFormItem",
     defaultValue: null,
+    transformRule: null,
     showLabel: true,
     labelWidth: null,
     span: 24,

@@ -150,6 +150,7 @@ import {
   selectComponents,
   layoutComponents,
   dataComponents,
+  displayComponents,
   formConf
 } from "@/components/generator/config";
 import {
@@ -225,6 +226,10 @@ export default {
       saveDrawingListDebounce: debounce(340, saveDrawingList),
       saveIdGlobalDebounce: debounce(340, saveIdGlobal),
       leftComponents: [
+        {
+          title: "显示组件",
+          list: Object.values(displayComponents)
+        },
         {
           title: "输入型组件",
           list: Object.values(inputComponents)

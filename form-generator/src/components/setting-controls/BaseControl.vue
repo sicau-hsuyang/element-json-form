@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-19 14:33:47
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 21:30:24
+ * @LastEditTime: 2020-10-27 21:55:03
 -->
 <script>
 import Vue from "vue";
@@ -17,6 +17,7 @@ import {
   selectComponents,
   layoutComponents
 } from "@/components/generator/config";
+import { transformRules } from "@/components/decorators";
 @Component({
   name: "BaseControl",
   components: {
@@ -193,6 +194,25 @@ export default class BaseControl extends Vue {
             this.onDefaultValueInput();
           }}
         />
+      </el-form-item>
+    );
+    eles.push(
+      <el-form-item label="类型转换">
+        <el-select
+          v-model={this.activeData.transformRule}
+          placeholder="请选择类型"
+          style={{ width: "100%" }}
+        >
+          {transformRules.map(item => {
+            return (
+              <el-option
+                key={item.label}
+                label={item.label}
+                value={item.value}
+              ></el-option>
+            );
+          })}
+        </el-select>
       </el-form-item>
     );
     return eles;

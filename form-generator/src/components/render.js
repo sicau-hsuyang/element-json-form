@@ -2,13 +2,14 @@
  * @Author: JohnYang
  * @Date: 2020-10-14 22:25:11
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-24 21:31:09
+ * @LastEditTime: 2020-10-27 22:03:12
  */
 import { deepClone, parseFunc } from "@/utils";
 import FormRadio from "@/components/controls/FormRadio.vue";
 import FormControl from "@/components/controls/FormControl.vue";
 import FormCheck from "@/components/controls/FormCheck.vue";
 import FormUpload from "@/components/controls/FormUpload.vue";
+import * as transformRuleMapping from "@/components/decorators";
 
 export default {
   props: {
@@ -63,7 +64,16 @@ export default {
         tag = "form-upload";
         break;
     }
-    const { style, className, ...rest } = conf;
+    const { style, className, transformRule, ...rest } = conf;
+
+    if (tag === "span") {
+      return h("span", {
+        class: className,
+        domProps: {
+          innerHTML: conf.defaultValue
+        }
+      });
+    }
 
     return h(tag, {
       props: {
@@ -81,7 +91,12 @@ export default {
       on: {
         ...events,
         input: val => {
-          this.$emit("input", val);
+          // 如果需要进行类型转化的话
+          var transformRule = transformRuleMapping[conf.transformRule];
+          this.$emit(
+            "input",
+            typeof transformRule === "function" ? transformRule(val) : val
+          );
         }
       }
     });

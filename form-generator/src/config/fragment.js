@@ -2,7 +2,7 @@
  * @Author: JohnYang
  * @Date: 2020-10-20 19:35:48
  * @LastEditors: JohnYang
- * @LastEditTime: 2020-10-26 13:32:15
+ * @LastEditTime: 2020-10-27 21:17:49
  */
 export const fetchSuggestionsFragment = `/**
  * 返回输入建议的方法，仅当你的输入建议数据 resolve 时，通过调用 callback(data:[]) 来返回它
@@ -65,5 +65,12 @@ export const lifecycleFragment = `/**
  * 生命周期
  */
 function callback() {
+
+}`;
+
+export const transformFragment = `/*
+ * 转换函数
+ */
+function transform(val) {
 
 }`;
